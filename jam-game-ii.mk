@@ -66,7 +66,7 @@ AS       := C:/mingw64/bin/as.exe
 CodeLiteDir:=C:\Program Files\CodeLite
 WXWIN:=C:\Users\Poga\Desktop\miskaste\wxwidgets
 WXCFG:=gcc_dll\mswu
-Objects0=$(IntermediateDirectory)/src_mongus.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_main.cpp$(ObjectSuffix) 
+Objects0=$(IntermediateDirectory)/src_main.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_mongus.cpp$(ObjectSuffix) 
 
 
 
@@ -97,14 +97,6 @@ PreBuild:
 ##
 ## Objects
 ##
-$(IntermediateDirectory)/src_mongus.cpp$(ObjectSuffix): src/mongus.cpp $(IntermediateDirectory)/src_mongus.cpp$(DependSuffix)
-	$(CXX) $(IncludePCH) $(SourceSwitch) "C:/Users/Poga/Desktop/painis/jam-game-ii/src/mongus.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_mongus.cpp$(ObjectSuffix) $(IncludePath)
-$(IntermediateDirectory)/src_mongus.cpp$(DependSuffix): src/mongus.cpp
-	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/src_mongus.cpp$(ObjectSuffix) -MF$(IntermediateDirectory)/src_mongus.cpp$(DependSuffix) -MM src/mongus.cpp
-
-$(IntermediateDirectory)/src_mongus.cpp$(PreprocessSuffix): src/mongus.cpp
-	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_mongus.cpp$(PreprocessSuffix) src/mongus.cpp
-
 $(IntermediateDirectory)/src_main.cpp$(ObjectSuffix): src/main.cpp $(IntermediateDirectory)/src_main.cpp$(DependSuffix)
 	$(CXX) $(IncludePCH) $(SourceSwitch) "C:/Users/Poga/Desktop/painis/jam-game-ii/src/main.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_main.cpp$(ObjectSuffix) $(IncludePath)
 $(IntermediateDirectory)/src_main.cpp$(DependSuffix): src/main.cpp
@@ -112,6 +104,14 @@ $(IntermediateDirectory)/src_main.cpp$(DependSuffix): src/main.cpp
 
 $(IntermediateDirectory)/src_main.cpp$(PreprocessSuffix): src/main.cpp
 	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_main.cpp$(PreprocessSuffix) src/main.cpp
+
+$(IntermediateDirectory)/src_mongus.cpp$(ObjectSuffix): src/mongus.cpp $(IntermediateDirectory)/src_mongus.cpp$(DependSuffix)
+	$(CXX) $(IncludePCH) $(SourceSwitch) "C:/Users/Poga/Desktop/painis/jam-game-ii/src/mongus.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_mongus.cpp$(ObjectSuffix) $(IncludePath)
+$(IntermediateDirectory)/src_mongus.cpp$(DependSuffix): src/mongus.cpp
+	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/src_mongus.cpp$(ObjectSuffix) -MF$(IntermediateDirectory)/src_mongus.cpp$(DependSuffix) -MM src/mongus.cpp
+
+$(IntermediateDirectory)/src_mongus.cpp$(PreprocessSuffix): src/mongus.cpp
+	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_mongus.cpp$(PreprocessSuffix) src/mongus.cpp
 
 
 -include $(IntermediateDirectory)/*$(DependSuffix)
