@@ -41,6 +41,8 @@ int main () {
     
     
     Render::Animation::Find("mongus-run")->LoadFromDisk();
+    Render::Animation::Find("mongus-sway")->LoadFromDisk();
+    Render::Animation::Find("mongus-jump")->LoadFromDisk();
     Render::Animation::Find("mongus-wag-tail")->LoadFromDisk();
     
     WorldCell* majas = WorldCell::Make("majas");
@@ -60,36 +62,33 @@ int main () {
         
         GUI::Begin();
         GUI::Text("Sulas glaaze pre-alpha do not redistribute", 1, GUI::TEXT_LEFT);
+        Ext::Menu::DebugMenu();
+        Ext::Menu::EscapeMenu();
         GUI::End();
         GUI::Update();
         
         //Render::CAMERA_POSITION = mongus->GetLocation() + vec3(0.0f, 30.0f, 0.0f);
         //Render::CAMERA_ROTATION = LookAt (Render::CAMERA_POSITION, mongus->GetLocation());
-        
-        vec3 look_dir = glm::normalize(Render::CAMERA_POSITION - mongus->GetLocation());
+    
 
-        float camera_y = atan(look_dir.x/look_dir.z);
+        if (UI::INPUT_STATE == UI::STATE_DEFAULT) {    
+            vec3 look_dir = glm::normalize(Render::CAMERA_POSITION - mongus->GetLocation());
+
+            float camera_y = atan(look_dir.x/look_dir.z);
+            
+            if (look_dir.z < 0.0f) {
+                camera_y -= 3.14f;
+            }
+
+            float camera_x = -acos(glm::dot(look_dir, glm::normalize(look_dir * vec3(1.0f, 0.0f, 1.0f))));
+            
+            quat camera_rot = vec3 (camera_x, camera_y, 0.0f);
         
-        if (look_dir.z < 0.0f) {
-            camera_y -= 3.14f;
+            Render::CAMERA_ROTATION = camera_rot;
         }
 
-        //float camera_x = (-1.0f + glm::dot(look_dir, glm::normalize(look_dir * vec3(1.0f, 0.0f, 1.0f))))*(3.14f/2.0f);
-        float camera_x = -acos(glm::dot(look_dir, glm::normalize(look_dir * vec3(1.0f, 0.0f, 1.0f))));
-        
-        //float camera_x = -1.0f;
-        
-        //std::cout << camera_x << std::endl;
 
-        quat camera_rot = vec3 (camera_x, camera_y, 0.0f);
-    
-        Render::CAMERA_ROTATION = camera_rot;
-        Render::AddLine(mongus->GetLocation(), mongus->GetLocation() + (camera_rot * DIRECTION_FORWARD), Render::COLOR_CYAN);
-        
-        static vec3 fix_look_dir = look_dir;
-        if (UI::PollKeyboardKey(UI::KEY_SPACE)) fix_look_dir = look_dir;
-        Render::AddLine(mongus->GetLocation(), mongus->GetLocation() + fix_look_dir, Render::COLOR_PINK);
-        
+
         Event::Dispatch();
         
         MongusComponent::Update();
