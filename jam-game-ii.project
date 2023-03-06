@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CodeLite_Project Name="jam-game-ii" Version="11000" InternalType="Console">
   <VirtualDirectory Name="src">
+    <VirtualDirectory Name="entities">
+      <File Name="src/entities/switch.h"/>
+      <File Name="src/entities/switch.cpp"/>
+      <File Name="src/entities/trigger.h"/>
+      <File Name="src/entities/trigger.cpp"/>
+    </VirtualDirectory>
+    <File Name="src/levelswitch.cpp"/>
+    <File Name="src/levelswitch.h"/>
     <File Name="src/mongus.cpp"/>
     <File Name="src/mongus.h"/>
     <File Name="src/main.cpp"/>

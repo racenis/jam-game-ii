@@ -1,3 +1,6 @@
+#ifndef JAM_GAME_II_MONGUS_H
+#define JAM_GAME_II_MONGUS_H
+
 #include <framework/entitycomponent.h>
 #include <framework/entity.h>
 #include <framework/event.h>
@@ -221,7 +224,7 @@ public:
     void Load() {
         mongus_comp.make();
         render_comp.make();
-        //physics_comp.make();
+        physics_comp.make();
         trigger_comp.make();
         armature_comp.make();
         
@@ -238,11 +241,14 @@ public:
         render_comp->Init();
         
         //physics_comp->SetParent(this);
-        //physics_comp->SetKinematic();
-        //physics_comp->SetShape(Physics::CollisionShape::Cylinder(0.5, 0.5f));
-        //physics_comp->Init();
+        physics_comp->SetKinematic();
+        physics_comp->SetCollisionGroup(Physics::COLL_PLAYER);
+        physics_comp->SetShape(Physics::CollisionShape::Cylinder(0.5, 0.5f));
+        physics_comp->Init();
         
         trigger_comp->SetShape(Physics::CollisionShape::Capsule(0.4, 0.5f));
+        //rigger_comp->SetCollisionGroup(Physics::COLL_PLAYER);
+        trigger_comp->SetCollisionMask(-1 ^ Physics::COLL_PLAYER);
         trigger_comp->Init();
         
         mongus_comp->SetArmatureComponent(armature_comp.get());
@@ -262,6 +268,7 @@ public:
     void UpdateParameters() {
         render_comp->UpdateLocation(location);
         render_comp->UpdateRotation(rotation);
+        physics_comp->SetLocation(location + vec3(0.0f, 1.6f, 0.0f));
     }
     
     void SetParameters() {
@@ -281,3 +288,4 @@ private:
     Component<ArmatureComponent> armature_comp;
 };
 
+#endif // JAM_GAME_II_MONGUS_H

@@ -3,6 +3,8 @@
 #include <render/render.h>
 #include <framework/logging.h>
 #include <framework/gui.h>
+#include <framework/message.h>
+#include <framework/language.h>
 #include <framework/worldcell.h>
 #include <physics/physics.h>
 
@@ -10,11 +12,14 @@
 //#include <framework/worldcell.h>
 
 #include <entities/staticworldobject.h>
+#include <entities/marker.h>
 
 #include <extensions/menu/menu.h>
 
 
 #include "mongus.h"
+#include "levelswitch.h"
+#include "entities/trigger.h"
 
 using namespace Core;
 
@@ -30,8 +35,12 @@ int main () {
     Ext::Menu::Init();
     
     Entity::Register("staticwobj", [](std::string_view& params) -> Entity* {return new StaticWorldObject(params);});
+    Entity::Register("trigger", [](std::string_view& params) -> Entity* {return new Trigger(params);});
+    
+    Language::Load("data/lv.lang");
     
     Render::Material::LoadMaterialInfo("data/material.list");
+    
     
     Render::AMBIENT_COLOR = {0.5f, 0.5f, 0.5f};
     
@@ -45,10 +54,9 @@ int main () {
     Render::Animation::Find("mongus-jump")->LoadFromDisk();
     Render::Animation::Find("mongus-wag-tail")->LoadFromDisk();
     
-    WorldCell* majas = WorldCell::Make("majas");
-    majas->LoadFromDisk();
-    majas->Load();
 
+    InitLevelSwitch();
+    LoadHomeLevel();
 
 
     Mongus* mongus = new Mongus;
@@ -62,6 +70,14 @@ int main () {
         
         GUI::Begin();
         GUI::Text("Sulas glaaze pre-alpha do not redistribute", 1, GUI::TEXT_LEFT);
+        
+        GUI::Frame(GUI::FRAME_BOTTOM, 100.0f);
+        if (CURRENT_TRIGGER) {
+            GUI::Text(Language::Get("trigger-activate"), 1, GUI::TEXT_CENTER); GUI::FrameBreakLine();
+            GUI::Text(Language::Get(CURRENT_TRIGGER), 1, GUI::TEXT_CENTER);
+        }
+        GUI::EndFrame();
+        
         Ext::Menu::DebugMenu();
         Ext::Menu::EscapeMenu();
         GUI::End();
@@ -85,11 +101,20 @@ int main () {
             quat camera_rot = vec3 (camera_x, camera_y, 0.0f);
         
             Render::CAMERA_ROTATION = camera_rot;
+            
+            if (glm::distance(Render::CAMERA_POSITION, mongus->GetLocation()) > 5.0f) {
+                Render::CAMERA_POSITION -= look_dir * 0.05f;
+            }
+            
+            if ((Render::CAMERA_POSITION - mongus->GetLocation()).y < 4.0f) {
+                Render::CAMERA_POSITION.y += 0.01f;
+            }
         }
 
 
 
         Event::Dispatch();
+        Message::Dispatch();
         
         MongusComponent::Update();
         

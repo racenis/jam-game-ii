@@ -1,2 +1,3 @@
 # cell 0 1
-staticwobj majaszeme 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 none majas/ara fullbright
+staticwobj majas-zeme 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 none majas/ara fullbright
+trigger majas-durvis-ara-trigeris 0.000000 2.000000 0.000000 0.000000 0.000000 0.000000 none 1.0 enter-home
