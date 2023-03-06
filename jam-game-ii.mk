@@ -66,7 +66,7 @@ AS       := C:/mingw64/bin/as.exe
 CodeLiteDir:=C:\Program Files\CodeLite
 WXWIN:=C:\Users\Poga\Desktop\miskaste\wxwidgets
 WXCFG:=gcc_dll\mswu
-Objects0=$(IntermediateDirectory)/src_entities_trigger.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_entities_switch.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_main.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_mongus.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_levelswitch.cpp$(ObjectSuffix) 
+Objects0=$(IntermediateDirectory)/src_entities_door.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_entities_trigger.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_entities_switch.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_main.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_mongus.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_levelswitch.cpp$(ObjectSuffix) 
 
 
 
@@ -97,6 +97,14 @@ PreBuild:
 ##
 ## Objects
 ##
+$(IntermediateDirectory)/src_entities_door.cpp$(ObjectSuffix): src/entities/door.cpp $(IntermediateDirectory)/src_entities_door.cpp$(DependSuffix)
+	$(CXX) $(IncludePCH) $(SourceSwitch) "C:/Users/Poga/Desktop/painis/jam-game-ii/src/entities/door.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_entities_door.cpp$(ObjectSuffix) $(IncludePath)
+$(IntermediateDirectory)/src_entities_door.cpp$(DependSuffix): src/entities/door.cpp
+	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/src_entities_door.cpp$(ObjectSuffix) -MF$(IntermediateDirectory)/src_entities_door.cpp$(DependSuffix) -MM src/entities/door.cpp
+
+$(IntermediateDirectory)/src_entities_door.cpp$(PreprocessSuffix): src/entities/door.cpp
+	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_entities_door.cpp$(PreprocessSuffix) src/entities/door.cpp
+
 $(IntermediateDirectory)/src_entities_trigger.cpp$(ObjectSuffix): src/entities/trigger.cpp $(IntermediateDirectory)/src_entities_trigger.cpp$(DependSuffix)
 	$(CXX) $(IncludePCH) $(SourceSwitch) "C:/Users/Poga/Desktop/painis/jam-game-ii/src/entities/trigger.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_entities_trigger.cpp$(ObjectSuffix) $(IncludePath)
 $(IntermediateDirectory)/src_entities_trigger.cpp$(DependSuffix): src/entities/trigger.cpp

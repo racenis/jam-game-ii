@@ -20,6 +20,7 @@
 #include "mongus.h"
 #include "levelswitch.h"
 #include "entities/trigger.h"
+#include "entities/door.h"
 
 using namespace Core;
 
@@ -36,6 +37,7 @@ int main () {
     
     Entity::Register("staticwobj", [](std::string_view& params) -> Entity* {return new StaticWorldObject(params);});
     Entity::Register("trigger", [](std::string_view& params) -> Entity* {return new Trigger(params);});
+    Entity::Register("door", [](std::string_view& params) -> Entity* {return new Door(params);});
     
     Language::Load("data/lv.lang");
     
@@ -54,6 +56,11 @@ int main () {
     Render::Animation::Find("mongus-jump")->LoadFromDisk();
     Render::Animation::Find("mongus-wag-tail")->LoadFromDisk();
     
+    Render::Animation::Find("door-open-cw")->LoadFromDisk();
+    Render::Animation::Find("door-open-ccw")->LoadFromDisk();
+    
+    Render::Animation::Find("door-close-cw")->LoadFromDisk();
+    Render::Animation::Find("door-close-ccw")->LoadFromDisk();
 
     InitLevelSwitch();
     LoadHomeLevel();
@@ -71,12 +78,12 @@ int main () {
         GUI::Begin();
         GUI::Text("Sulas glaaze pre-alpha do not redistribute", 1, GUI::TEXT_LEFT);
         
-        GUI::Frame(GUI::FRAME_BOTTOM, 100.0f);
+        /*GUI::Frame(GUI::FRAME_BOTTOM, 100.0f);
         if (CURRENT_TRIGGER) {
             GUI::Text(Language::Get("trigger-activate"), 1, GUI::TEXT_CENTER); GUI::FrameBreakLine();
             GUI::Text(Language::Get(CURRENT_TRIGGER), 1, GUI::TEXT_CENTER);
         }
-        GUI::EndFrame();
+        GUI::EndFrame();*/
         
         Ext::Menu::DebugMenu();
         Ext::Menu::EscapeMenu();
@@ -102,7 +109,7 @@ int main () {
         
             Render::CAMERA_ROTATION = camera_rot;
             
-            if (glm::distance(Render::CAMERA_POSITION, mongus->GetLocation()) > 5.0f) {
+            if (glm::distance(Render::CAMERA_POSITION, mongus->GetLocation()) > 7.5f) {
                 Render::CAMERA_POSITION -= look_dir * 0.05f;
             }
             

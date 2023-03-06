@@ -1,10 +1,6 @@
-#include <framework/message.h>
 #include <framework/worldcell.h>
 
 #include "trigger.h"
-
-const message_t TRIGGER_ACTIVATE = 100;
-const message_t TRIGGER_DEACTIVATE = 101;
 
 name_t CURRENT_TRIGGER;
 
@@ -72,12 +68,25 @@ void Trigger::Serialize() {
 
 void Trigger::MessageHandler(Message& msg){
     if (msg.type == TRIGGER_ACTIVATE) {
-        std::cout << "ACTIVATED!" << std::endl;
+        if (serializeddata->trigger_target != UID("none")) {
+            Message::Send({
+                .type = TRIGGER_ACTIVATE,
+                .receiver = Entity::FindByName(serializeddata->trigger_target)->GetID()
+            });
+        }
+        
+        
         CURRENT_TRIGGER = serializeddata->trigger_action;
     }
     
     if (msg.type == TRIGGER_DEACTIVATE) {
-        std::cout << "DEACTIVATED!" << std::endl;
+        if (serializeddata->trigger_target != UID("none")) {
+            Message::Send({
+                .type = TRIGGER_DEACTIVATE,
+                .receiver = Entity::FindByName(serializeddata->trigger_target)->GetID()
+            });
+        }
+        
         CURRENT_TRIGGER = UID();
     }
 }
