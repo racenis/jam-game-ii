@@ -1,6 +1,7 @@
 #include <framework/worldcell.h>
 
 #include "trigger.h"
+#include "../levelswitch.h"
 
 name_t CURRENT_TRIGGER;
 
@@ -68,11 +69,16 @@ void Trigger::Serialize() {
 
 void Trigger::MessageHandler(Message& msg){
     if (msg.type == TRIGGER_ACTIVATE) {
-        if (serializeddata->trigger_target != UID("none")) {
+        if (serializeddata->trigger_target != UID("none") && 
+            serializeddata->trigger_action == UID("activate")) {
             Message::Send({
                 .type = TRIGGER_ACTIVATE,
                 .receiver = Entity::FindByName(serializeddata->trigger_target)->GetID()
             });
+        }
+        
+        if (serializeddata->trigger_action == UID("enter")) {
+            SwitchLevel(serializeddata->trigger_target);
         }
         
         
@@ -80,11 +86,16 @@ void Trigger::MessageHandler(Message& msg){
     }
     
     if (msg.type == TRIGGER_DEACTIVATE) {
-        if (serializeddata->trigger_target != UID("none")) {
+        if (serializeddata->trigger_target != UID("none") && 
+            serializeddata->trigger_action == UID("activate")) {
             Message::Send({
                 .type = TRIGGER_DEACTIVATE,
                 .receiver = Entity::FindByName(serializeddata->trigger_target)->GetID()
             });
+        }
+        
+        if (serializeddata->trigger_action == UID("enter")) {
+            SwitchLevel(serializeddata->trigger_target);
         }
         
         CURRENT_TRIGGER = UID();

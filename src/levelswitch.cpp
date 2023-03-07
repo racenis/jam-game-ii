@@ -1,5 +1,7 @@
 #include <components/triggercomponent.h>
 #include "levelswitch.h"
+#include "camera.h"
+#include "mongus.h"
 
 WorldCell* SELECTED_LEVEL = nullptr;
 
@@ -20,6 +22,24 @@ void InitLevelSwitch() {
 void LoadHomeLevel() {
     SELECTED_LEVEL = HOME_LEVEL;
     SELECTED_LEVEL->Load();
+}
+
+void SwitchLevel(name_t level_name) {
+    SELECTED_LEVEL->Unload();
+    SELECTED_LEVEL = nullptr;
     
+    if (level_name == UID("majas-ieksa")) {
+        SELECTED_LEVEL = HOME_INTERIOR_LEVEL;
+        MongusCameraLock(true);
+        MongusCameraMove(Entity::FindByName("majas-ieksa-kamera")->GetLocation());
+    }
     
+    if (level_name == UID("majas-ara")) {
+        SELECTED_LEVEL = HOME_LEVEL;
+    }
+    
+    MAIN_MONGUS->MongusPause();
+    
+    assert(SELECTED_LEVEL);
+    SELECTED_LEVEL->Load();
 }

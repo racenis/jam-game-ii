@@ -57,6 +57,7 @@ void Door::Serialize() {
 }
 
 void Door::MessageHandler(Message& msg){
+    if (!isloaded) return;
     if (msg.type == TRIGGER_ACTIVATE) {
         if (armaturecomponent->IsPlayingAnimation("door-close-cw")) {
             armaturecomponent->StopAnimation("door-close-cw");

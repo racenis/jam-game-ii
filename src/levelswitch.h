@@ -9,4 +9,6 @@ void InitLevelSwitch();
 
 void LoadHomeLevel();
 
+void SwitchLevel(name_t level_name);
+
 #endif // JAM_GAME_II_LEVELSWITCH_H

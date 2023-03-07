@@ -12,35 +12,8 @@
 
 using namespace Core;
 
-inline quat LookAt(vec3 sourcePoint, vec3 destPoint)
-{
-    vec3 forwardVector = glm::normalize(destPoint - sourcePoint);
-
-    float dot = glm::dot(DIRECTION_FORWARD, forwardVector);
-
-    if (abs(dot - (-1.0f)) < 0.000001f)
-    {
-        return quat (DIRECTION_UP.x, DIRECTION_UP.y, DIRECTION_UP.z, 3.1415926535897932f);
-    }
-    if (abs(dot - (1.0f)) < 0.000001f)
-    {
-        return quat (0.0f, 0.0f, 0.0f, 1.0f);
-    }
-
-    float rotAngle = (float)acos(dot);
-    vec3 rotAxis = glm::cross(DIRECTION_FORWARD, forwardVector);
-    rotAxis = glm::normalize(rotAxis);
-    
-    float halfAngle = rotAngle * .5f;
-    float s = (float)sin(halfAngle);
-    quat q;
-    q.x = rotAxis.x * s;
-    q.y = rotAxis.y * s;
-    q.z = rotAxis.z * s;
-    q.w = (float)cos(halfAngle);
-    
-    return q;
-}
+class Mongus;
+extern Mongus* MAIN_MONGUS;
 
 class MongusComponent : public EntityComponent {
     //MongusComponent() = default;
@@ -278,6 +251,11 @@ public:
 
     void MessageHandler(Message& msg) {
         
+    }
+    
+    void MongusPause() {
+        mongus_comp->fall = false;
+        mongus_comp->velocity = {0.0f, 0.0f, 0.0f};
     }
     
 private:
