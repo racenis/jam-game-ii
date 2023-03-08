@@ -48,9 +48,10 @@ public:
     }
     
     void Move() {
+        if (is_paused) return;
+        
         bool is_run = movdir_forward || movdir_side;
         
-
         vec3 direction_forward = glm::normalize(Render::CAMERA_ROTATION * DIRECTION_FORWARD);
         vec3 direction_side = glm::normalize(Render::CAMERA_ROTATION * DIRECTION_SIDE);
         
@@ -78,7 +79,7 @@ public:
         
         
         
-        Render::AddLine(parent->GetLocation(), parent->GetLocation() + direction, Render::COLOR_BLUE);
+        /*Render::AddLine(parent->GetLocation(), parent->GetLocation() + direction, Render::COLOR_BLUE);*/
         
         vec3 new_pos = parent->GetLocation() + velocity;
         quat new_rot = vec3(0.0f, 3.14f + (atan(direction.x/direction.z) - (direction.z < 0.0f ? 3.14f : 0.0f)), 0.0f);
@@ -111,9 +112,9 @@ public:
             new_pos.y += 0.05f;
         }
         
-        Render::AddLineMarker(collision.point, Render::COLOR_RED);
+        /*Render::AddLineMarker(collision.point, Render::COLOR_RED);*/
         
-        trigger_comp->SetLocation(new_pos + vec3(0.0f, 1.0f, 0.0f));
+        trigger_comp->SetLocation(new_pos + vec3(0.0f, 1.2f, 0.0f));
         if (trigger_comp->Poll().size()) {
             velocity.x = 0.0f;
             velocity.z = 0.0f;
@@ -143,12 +144,10 @@ public:
             if (armature_comp->IsPlayingAnimation("mongus-sway")) {
                 armature_comp->FadeAnimation("mongus-sway", false, 0.1f);
             }
-            std::cout << "starting anim" << std::endl;
         }
         
         if (!is_run && was_run) {
             armature_comp->FadeAnimation("mongus-run", false, 0.025f);
-            std::cout << "ending anim" << std::endl;
         }
         
         was_run = is_run;
@@ -179,6 +178,8 @@ public:
     int32_t ticks_until_jump = -1;
     
     bool was_run = false;
+    
+    bool is_paused = false;
     
     bool jump = false;
     bool fall = false;
@@ -219,7 +220,7 @@ public:
         physics_comp->SetShape(Physics::CollisionShape::Cylinder(0.5, 0.5f));
         physics_comp->Init();
         
-        trigger_comp->SetShape(Physics::CollisionShape::Capsule(0.4, 0.5f));
+        trigger_comp->SetShape(Physics::CollisionShape::Capsule(0.4, 0.2f));
         //rigger_comp->SetCollisionGroup(Physics::COLL_PLAYER);
         trigger_comp->SetCollisionMask(-1 ^ Physics::COLL_PLAYER);
         trigger_comp->Init();
@@ -256,6 +257,11 @@ public:
     void MongusPause() {
         mongus_comp->fall = false;
         mongus_comp->velocity = {0.0f, 0.0f, 0.0f};
+        mongus_comp->is_paused = true;
+    }
+    
+    void MongusResume() {
+        mongus_comp->is_paused = false;
     }
     
 private:

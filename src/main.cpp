@@ -44,10 +44,7 @@ int main () {
     Language::Load("data/lv.lang");
     
     Render::Material::LoadMaterialInfo("data/material.list");
-    
-    
-    Render::AMBIENT_COLOR = {0.5f, 0.5f, 0.5f};
-    
+        
     
     Render::CAMERA_POSITION = {0.0f, 10.0f, 0.0f};
     Render::CAMERA_ROTATION = vec3 (-3.14f*0.5f, 0.0f, 0.0f);
@@ -64,15 +61,13 @@ int main () {
     Render::Animation::Find("door-close-cw")->LoadFromDisk();
     Render::Animation::Find("door-close-ccw")->LoadFromDisk();
 
-    InitLevelSwitch();
-    LoadHomeLevel();
-
-
-    //Mongus* mongus = new Mongus;
     MAIN_MONGUS = new Mongus;
     MAIN_MONGUS->Load();
     MAIN_MONGUS->SetLocation(vec3 (5.0f, 0.0f, 0.0f));
     MAIN_MONGUS->SetRotation(vec3 (0.0f, 0.0f, 0.0f));
+
+    InitLevelSwitch();
+    LoadHomeLevel();
     
     while (!EXIT) {
         Core::Update();
@@ -88,6 +83,14 @@ int main () {
         }
         GUI::EndFrame();*/
         
+        if (IsLoaderLoading()) {
+            GUI::Frame(GUI::FRAME_BOTTOM, 100.0f);
+                GUI::Text(Language::Get("loading"), 1, GUI::TEXT_CENTER);
+            GUI::EndFrame();
+            
+            GetLoaderProgress();
+        }
+        
         Ext::Menu::DebugMenu();
         Ext::Menu::EscapeMenu();
         GUI::End();
@@ -98,7 +101,6 @@ int main () {
     
 
         MongusCameraUpdate();
-
 
 
         Event::Dispatch();

@@ -57,8 +57,7 @@ void Trigger::Load(){
 
 void Trigger::Unload() {
     isloaded = false;
-
-    return;
+    std::cout << "TRIGGER IS UNLOADED " << std::endl;
 
     triggercomponent.clear();
 }
@@ -92,10 +91,6 @@ void Trigger::MessageHandler(Message& msg){
                 .type = TRIGGER_DEACTIVATE,
                 .receiver = Entity::FindByName(serializeddata->trigger_target)->GetID()
             });
-        }
-        
-        if (serializeddata->trigger_action == UID("enter")) {
-            SwitchLevel(serializeddata->trigger_target);
         }
         
         CURRENT_TRIGGER = UID();

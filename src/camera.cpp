@@ -9,7 +9,7 @@ bool is_camera_locked = false;
 
 void MongusCameraUpdate() {
     if (UI::INPUT_STATE == UI::STATE_DEFAULT) {    
-        vec3 look_dir = glm::normalize(Render::CAMERA_POSITION - MAIN_MONGUS->GetLocation());
+        vec3 look_dir = glm::normalize(Render::CAMERA_POSITION - (MAIN_MONGUS->GetLocation() + vec3(0.0f, 1.0f, 0.0f)));
 
         float camera_y = atan(look_dir.x/look_dir.z);
         
@@ -23,12 +23,16 @@ void MongusCameraUpdate() {
     
         Render::CAMERA_ROTATION = camera_rot;
         
-        if (!is_camera_locked && glm::distance(Render::CAMERA_POSITION, MAIN_MONGUS->GetLocation()) > 7.5f) {
-            Render::CAMERA_POSITION -= look_dir * 0.05f;
-        }
-        
-        if ((Render::CAMERA_POSITION - MAIN_MONGUS->GetLocation()).y < 4.0f) {
-            Render::CAMERA_POSITION.y += 0.01f;
+        if (!is_camera_locked) {
+            float mongus_distance = glm::distance(Render::CAMERA_POSITION, MAIN_MONGUS->GetLocation());
+            
+            if (mongus_distance > 7.5f) {
+                Render::CAMERA_POSITION -= look_dir * (mongus_distance > 15.0f ? 1.0f : 0.05f);
+            }
+            
+            if ((Render::CAMERA_POSITION - MAIN_MONGUS->GetLocation()).y < 4.0f) {
+                Render::CAMERA_POSITION.y += 0.01f;
+            }
         }
     }
 }

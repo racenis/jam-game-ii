@@ -1,3 +1,10 @@
 # cell 0 0
 staticwobj majas-ieksa 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 none majas/ieksa fullbright
 marker majas-ieksa-kamera -4.500000 3.000000 2.800000 0.000000 0.000000 0.000000 none
+marker majas-ieksa-ienacenis -0.500000 1.000000 0.000000 0.000000 0.000000 0.000000 none
+trigger majas-durvis-trigeris-ienakt 2.300000 2.000000 0.000000 0.000000 0.000000 0.000000 none 1.000000 enter majas-ara
+door majas-durvis-ieksa 0.400000 1.000000 0.000000 0.000000 0.000000 0.000000 none majas/durvis
+trigger majas-durvis-ieksa-trigeris-atvert 0.500000 2.000000 0.000000 0.000000 0.000000 0.000000 none 1.000000 activate majas-durvis-ieksa
+staticwobj majas-ledusskapis -0.600000 1.000000 3.300000 0.000000 0.600000 0.000000 none majas/ledusskapis fullbright
+door majas-ledusskapis-durvis -0.600000 1.000000 3.300000 0.000000 0.600000 0.000000 none majas/ledusskapisdurvis
+trigger majas-ledusskapis-trigeris-atvert -0.600000 2.000000 3.300000 0.000000 0.000000 0.000000 none 1.000000 activate majas-ledusskapis-durvis
