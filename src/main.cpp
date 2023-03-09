@@ -66,6 +66,8 @@ int main () {
     MAIN_MONGUS->SetLocation(vec3 (5.0f, 0.0f, 0.0f));
     MAIN_MONGUS->SetRotation(vec3 (0.0f, 0.0f, 0.0f));
 
+    Render::CAMERA_POSITION = {100.0f, 0.0f, 0.0f};
+
     InitLevelSwitch();
     LoadHomeLevel();
     
@@ -102,6 +104,7 @@ int main () {
 
         MongusCameraUpdate();
 
+        if (UI::PollKeyboardKey(Core::UI::KEY_E)) MAIN_MONGUS->SetLocation(MAIN_MONGUS->GetLocation()+vec3(0.0f, 1.0f, 0.0f));
 
         Event::Dispatch();
         Message::Dispatch();

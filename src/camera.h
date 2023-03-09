@@ -11,4 +11,6 @@ void MongusCameraMove(vec3);
 
 void MongusCameraLock(bool);
 
+void MongusCameraDynamic(bool);
+
 #endif // JAM_GAME_II_CAMERA_H

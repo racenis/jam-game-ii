@@ -71,8 +71,9 @@ public:
         
         if (is_run) {
             float speed = glm::length(velocity);
-            float add_speed = 0.08f - speed;
-            float clip_speed = add_speed < 0.0f ? 0.0f : add_speed;
+            float add_speed = (is_in_air ? 0.04f : 0.08f) - speed;
+            float turn_speed = add_speed * glm::dot(direction, direction_target);
+            float clip_speed = add_speed < 0.0f ? 0.0f : turn_speed;
             
             velocity += direction * clip_speed;
         }
@@ -92,32 +93,48 @@ public:
         if (collision.collider) {
             new_pos.y = collision.point.y;
             velocity.y = 0.0f;
+            //velocity *= 0.89f;
+            velocity *= 0.79f;
             
-            velocity *= 0.89f;
+            is_in_air = false;
             
             if (jump && ticks_until_jump < 0) {
                 jump = false;
                 
                 armature_comp->PlayAnimation("mongus-jump", 1, 1.0f, 4.0f);
-                ticks_until_jump = 60;
+                velocity.y = 0.15f;
+                new_pos.y += 0.05f;
             }
         } else {
             if (fall) {
                 velocity.y -= 0.005f;
             }
-        }
-        
-        if (ticks_until_jump == 0) {
-            velocity.y = 0.15f;
-            new_pos.y += 0.05f;
+            
+            is_in_air = true;
+            Render::AddLineMarker(parent->GetLocation() + vec3(0.0f, 1.0f, 0.0f), Render::COLOR_CYAN);
         }
         
         /*Render::AddLineMarker(collision.point, Render::COLOR_RED);*/
         
         trigger_comp->SetLocation(new_pos + vec3(0.0f, 1.2f, 0.0f));
         if (trigger_comp->Poll().size()) {
-            velocity.x = 0.0f;
-            velocity.z = 0.0f;
+            vec3 average_normal = vec3(0.0f, 0.0f, 0.0f);
+            auto poll = trigger_comp->Poll();
+            for (auto& coll : poll) {
+                average_normal += coll.normal;
+            }
+            average_normal /= poll.size();
+            
+            auto v_dir = glm::normalize(velocity);
+            auto s_dir = glm::normalize(average_normal);
+
+            auto n_dir = glm::normalize(v_dir - s_dir);
+
+            auto n_vel = n_dir * glm::length(velocity) * glm::dot(v_dir, n_dir);
+
+            if (std::isnan(n_vel.x) || std::isnan(n_vel.z)) n_vel = vec3(0.0f, 0.0f, 0.0f);
+            
+            velocity = n_vel;
             
             new_pos = parent->GetLocation() + velocity;
         }
@@ -148,6 +165,13 @@ public:
         
         if (!is_run && was_run) {
             armature_comp->FadeAnimation("mongus-run", false, 0.025f);
+        }
+        
+        
+        auto shadow = Physics::Raycast(in_pos, in_pos - vec3(0.0f, 5.0f, 0.0f));
+        
+        if (shadow.collider) {
+            Render::AddLineMarker(shadow.point, Render::COLOR_GREEN);
         }
         
         was_run = is_run;
@@ -183,6 +207,8 @@ public:
     
     bool jump = false;
     bool fall = false;
+    
+    bool is_in_air = false;
     
     vec3 direction = DIRECTION_FORWARD;
     vec3 direction_target = DIRECTION_FORWARD;

@@ -47,7 +47,8 @@ void InitLevelSwitch() {
 }
 
 void LoadHomeLevel() {
-    SwitchLevel(UID("majas-ara"));
+    ///SwitchLevel(UID("majas-ara"));
+    SwitchLevel(UID("limenis-1"));
 }
 
 void SwitchLevel(name_t level_name) {
@@ -60,9 +61,7 @@ void SwitchLevel(name_t level_name) {
         MAIN_MONGUS->SetLocation(Entity::FindByName("majas-ieksa-ienacenis")->GetLocation());
         MongusCameraLock(true);
         MongusCameraMove(Entity::FindByName("majas-ieksa-kamera")->GetLocation());
-        Render::SUN_DIRECTION = {0.577f, 0.577f, 0.577f};
-        Render::SUN_COLOR = {0.666f, 0.666f, 0.666f};
-        Render::AMBIENT_COLOR = {0.444f, 0.444f, 0.444f};
+
     }
     
     if (level_name == UID("majas-ara")) {
@@ -70,15 +69,14 @@ void SwitchLevel(name_t level_name) {
         MAIN_MONGUS->SetLocation(Entity::FindByName("majas-ara-ienacenis")->GetLocation());
         MongusCameraLock(false);
         MongusCameraMove(Entity::FindByName("majas-ara-kamera")->GetLocation());
-        Render::SUN_DIRECTION = {-0.40f, 0.81f, -0.40f};
-        Render::SUN_COLOR = {0.777f, 0.777f, 0.777f};
-        Render::AMBIENT_COLOR = {0.666f, 0.666f, 0.666f};
-
+        MongusCameraDynamic(true);
     }
     
     if (level_name == UID("limenis-1")) {
         SELECTED_LEVEL = FIRST_LEVEL;
         MAIN_MONGUS->SetLocation(Entity::FindByName("limenis-1-ienacenis")->GetLocation());
+        MongusCameraLock(false);
+        MongusCameraDynamic(true);
     }
     
     MAIN_MONGUS->MongusPause();
