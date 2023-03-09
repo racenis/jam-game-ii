@@ -101,7 +101,7 @@ public:
             if (jump && ticks_until_jump < 0) {
                 jump = false;
                 
-                armature_comp->PlayAnimation("mongus-jump", 1, 1.0f, 4.0f);
+                //armature_comp->PlayAnimation("mongus-jump", 1, 1.0f, 4.0f);
                 velocity.y = 0.15f;
                 new_pos.y += 0.05f;
             }

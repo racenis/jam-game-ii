@@ -22,6 +22,7 @@
 #include "levelswitch.h"
 #include "entities/trigger.h"
 #include "entities/door.h"
+#include "entities/pickup.h"
 
 using namespace Core;
 
@@ -39,6 +40,7 @@ int main () {
     Entity::Register("staticwobj", [](std::string_view& params) -> Entity* {return new StaticWorldObject(params);});
     Entity::Register("trigger", [](std::string_view& params) -> Entity* {return new Trigger(params);});
     Entity::Register("marker", [](std::string_view& params) -> Entity* {return new Marker(params);});
+    Entity::Register("pickup", [](std::string_view& params) -> Entity* {return new Pickup(params);});
     Entity::Register("door", [](std::string_view& params) -> Entity* {return new Door(params);});
     
     Language::Load("data/lv.lang");
@@ -60,6 +62,8 @@ int main () {
     
     Render::Animation::Find("door-close-cw")->LoadFromDisk();
     Render::Animation::Find("door-close-ccw")->LoadFromDisk();
+    
+    Render::Animation::Find("pickup-spin")->LoadFromDisk();
 
     MAIN_MONGUS = new Mongus;
     MAIN_MONGUS->Load();
