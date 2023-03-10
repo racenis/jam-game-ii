@@ -1,23 +1,23 @@
 # cell 0 0
 staticwobj limenis-1-zeme 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 none limeni/limenis1 fullbright
-marker limenis-1-ienacenis -45.100018 1.600000 37.600014 0.000000 0.000000 0.000000 none
-pickup limenis-1-pickup-1 -39.500031 2.000000 37.100010 0.000000 0.000000 0.000000 none pickup/kirsis
-pickup limenis-1-pickup-2 -37.900040 2.700000 37.100010 0.000000 0.000000 0.000000 none pickup/kirsis
-pickup limenis-1-pickup-3 -36.100040 3.900000 37.100010 0.000000 0.000000 0.000000 none pickup/kirsis
-pickup limenis-1-pickup-4 -33.200031 4.799998 37.100010 0.000000 0.000000 0.000000 none pickup/kirsis
-pickup limenis-1-pickup-5 -33.100048 4.899998 35.300011 0.000000 0.000000 0.000000 none pickup/kirsis
-pickup limenis-1-pickup-6 -34.500031 4.699998 34.100010 0.000000 0.000000 0.000000 none pickup/kirsis
-pickup limenis-1-pickup-7 -35.200073 4.999999 32.600025 0.000000 0.000000 0.000000 none pickup/kirsis
-pickup limenis-1-pickup-8 -35.300072 4.799999 29.800011 0.000000 0.000000 0.000000 none pickup/kirsis
-pickup limenis-1-pickup-9 -40.500027 6.699997 28.800011 0.000000 0.000000 0.000000 none pickup/kirsis
-pickup limenis-1-pickup-10 -43.100018 8.199996 29.300001 0.000000 0.000000 0.000000 none pickup/kirsis
-pickup limenis-1-pickup-11 -38.500015 5.699997 29.099995 0.000000 0.000000 0.000000 none pickup/kirsis
-pickup limenis-1-pickup-12 -43.200035 8.699998 27.400003 0.000000 0.000000 0.000000 none pickup/kirsis
-pickup limenis-1-pickup-13 -41.000023 8.799996 25.199989 0.000000 0.000000 0.000000 none pickup/kirsis
-pickup limenis-1-pickup-14 -34.800076 8.599998 26.900005 0.000000 0.000000 0.000000 none pickup/kirsis
-pickup limenis-1-pickup-15 -30.500082 8.599998 29.100006 0.000000 0.000000 0.000000 none pickup/kirsis
-pickup limenis-1-pickup-16 -27.600025 8.799999 31.800020 0.000000 0.000000 0.000000 none pickup/kirsis
-pickup limenis-1-pickup-17 -18.700010 8.699998 37.100002 0.000000 0.000000 0.000000 none pickup/kirsis
-pickup limenis-1-pickup-18 -15.999996 8.700001 34.900005 0.000000 0.000000 0.000000 none pickup/kirsis
-pickup limenis-1-pickup-19 -13.900027 14.800009 22.399998 0.000000 0.000000 0.000000 none pickup/kirsis
-pickup limenis-1-pickup-20 -13.700041 10.600015 29.600002 0.000000 0.000000 0.000000 none pickup/kirsis
+marker limenis-1-ienacenis -23.000000 0.050000 16.000000 0.000000 0.000000 0.000000 none
+pickup limenis-1-pickup-1 -24.000000 1.000000 17.000000 0.000000 0.000000 0.000000 none pickup/kirsis
+pickup limenis-1-pickup-2 -25.000000 1.000000 18.500000 0.000000 0.000000 0.000000 none pickup/kirsis
+pickup limenis-1-pickup-3 -24.000000 1.000000 20.000000 0.000000 0.000000 0.000000 none pickup/kirsis
+pickup limenis-1-pickup-4 -22.000000 1.000000 21.000000 0.000000 0.000000 0.000000 none pickup/kirsis
+pickup limenis-1-pickup-5 -20.000000 1.000000 20.500000 0.000000 0.000000 0.000000 none pickup/kirsis
+pickup limenis-1-pickup-6 -18.000000 1.000000 19.000000 0.000000 0.000000 0.000000 none pickup/kirsis
+pickup limenis-1-pickup-7 -15.000000 3.000000 19.000000 0.000000 0.000000 0.000000 none pickup/kirsis
+pickup limenis-1-pickup-8 -12.000000 5.000000 19.000000 0.000000 0.000000 0.000000 none pickup/kirsis
+pickup limenis-1-pickup-9 -11.000000 5.000000 17.000000 0.000000 0.000000 0.000000 none pickup/kirsis
+pickup limenis-1-pickup-10 -11.000000 5.000000 15.000000 0.000000 0.000000 0.000000 none pickup/kirsis
+pickup limenis-1-pickup-11 -12.000000 5.000000 13.000000 0.000000 0.000000 0.000000 none pickup/kirsis
+pickup limenis-1-pickup-12 -14.000000 5.000000 11.500000 0.000000 0.000000 0.000000 none pickup/kirsis
+pickup limenis-1-pickup-13 -17.000000 6.000000 11.000000 0.000000 0.000000 0.000000 none pickup/kirsis
+pickup limenis-1-pickup-14 -19.000000 7.000000 11.000000 0.000000 0.000000 0.000000 none pickup/kirsis
+pickup limenis-1-pickup-15 -21.000000 8.000000 11.000000 0.000000 0.000000 0.000000 none pickup/kirsis
+pickup limenis-1-pickup-16 -20.000000 11.000000 2.000000 0.000000 0.000000 0.000000 none pickup/kirsis
+pickup limenis-1-pickup-17 -9.000000 10.500000 -8.000000 0.000000 0.000000 0.000000 none pickup/kirsis
+pickup limenis-1-pickup-18 -5.000000 10.000000 -4.000001 0.000000 0.000000 0.000000 none pickup/kirsis
+pickup limenis-1-pickup-19 -13.000000 10.000000 -4.000000 0.000000 0.000000 0.000000 none pickup/kirsis
+pickup limenis-1-pickup-20 -9.000000 9.500000 0.000000 0.000000 0.000000 0.000000 none pickup/kirsis
