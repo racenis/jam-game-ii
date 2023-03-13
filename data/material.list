@@ -9,6 +9,7 @@ floor/zaletaka flat
 floor/taka flat
 wall/akmens flat
 wall/kiegeli flat
+wall/kiegelilieli flat
 wall/zeme flat
 floor/flizeslielas flat
 detail/caurulecaurums flat
@@ -19,3 +20,5 @@ detail/ledusskapis flat
 pickup/kirsis flat
 black flat
 mongus flat
+krabis flat
+vardite flat

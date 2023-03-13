@@ -23,6 +23,7 @@
 #include "entities/trigger.h"
 #include "entities/door.h"
 #include "entities/pickup.h"
+#include "entities/crab.h"
 
 using namespace Core;
 
@@ -42,6 +43,7 @@ int main () {
     Entity::Register("marker", [](std::string_view& params) -> Entity* {return new Marker(params);});
     Entity::Register("pickup", [](std::string_view& params) -> Entity* {return new Pickup(params);});
     Entity::Register("door", [](std::string_view& params) -> Entity* {return new Door(params);});
+    Entity::Register("crab", [](std::string_view& params) -> Entity* {return new Crab(params);});
     
     Language::Load("data/lv.lang");
     
@@ -64,6 +66,9 @@ int main () {
     Render::Animation::Find("door-close-ccw")->LoadFromDisk();
     
     Render::Animation::Find("pickup-spin")->LoadFromDisk();
+    
+    Render::Animation::Find("krabis-walk")->LoadFromDisk();
+    Render::Animation::Find("krabis-snibetisnab")->LoadFromDisk();
 
     MAIN_MONGUS = new Mongus;
     MAIN_MONGUS->Load();
@@ -114,6 +119,7 @@ int main () {
         Message::Dispatch();
         
         MongusComponent::Update();
+        CrabComponent::Update();
         
         //UI::INPUT_STATE = UI::STATE_FLYING;
         
