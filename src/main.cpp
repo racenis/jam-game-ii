@@ -24,6 +24,7 @@
 #include "entities/door.h"
 #include "entities/pickup.h"
 #include "entities/crab.h"
+#include "entities/frog.h"
 
 using namespace Core;
 
@@ -44,6 +45,7 @@ int main () {
     Entity::Register("pickup", [](std::string_view& params) -> Entity* {return new Pickup(params);});
     Entity::Register("door", [](std::string_view& params) -> Entity* {return new Door(params);});
     Entity::Register("crab", [](std::string_view& params) -> Entity* {return new Crab(params);});
+    Entity::Register("frog", [](std::string_view& params) -> Entity* {return new Frog(params);});
     
     Language::Load("data/lv.lang");
     
@@ -110,7 +112,6 @@ int main () {
         //Render::CAMERA_POSITION = mongus->GetLocation() + vec3(0.0f, 30.0f, 0.0f);
         //Render::CAMERA_ROTATION = LookAt (Render::CAMERA_POSITION, mongus->GetLocation());
     
-
         MongusCameraUpdate();
 
         if (UI::PollKeyboardKey(Core::UI::KEY_E)) MAIN_MONGUS->SetLocation(MAIN_MONGUS->GetLocation()+vec3(0.0f, 1.0f, 0.0f));

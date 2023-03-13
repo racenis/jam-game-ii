@@ -4,6 +4,8 @@
     <File Name="src/camera.h"/>
     <File Name="src/camera.cpp"/>
     <VirtualDirectory Name="entities">
+      <File Name="src/entities/frog.h"/>
+      <File Name="src/entities/frog.cpp"/>
       <File Name="src/entities/crab.h"/>
       <File Name="src/entities/crab.cpp"/>
       <File Name="src/entities/pickup.h"/>

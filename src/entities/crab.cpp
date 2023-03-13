@@ -26,6 +26,7 @@ void Crab::Load(){
     rendercomponent.make();
     armaturecomponent.make();
     triggercomponent.make();
+    physicscomponent.make();
     crabcomponent.make();
     
     rendercomponent->SetParent(this);
@@ -36,7 +37,12 @@ void Crab::Load(){
     
     triggercomponent->SetParent(this);
     triggercomponent->SetShape(Physics::CollisionShape::Sphere(0.4f));
-    triggercomponent->Init();
+    
+    physicscomponent->SetParent(this);
+    physicscomponent->SetShape(Physics::CollisionShape::Sphere(0.6f));
+    physicscomponent->SetKinematic();
+    physicscomponent->SetCollisionGroup(Physics::COLL_VEHICLE);
+    physicscomponent->SetCollisionMask(Physics::COLL_VEHICLE);
     
     crabcomponent->SetParent(this);
     crabcomponent->SetTriggerComponent(triggercomponent.get());
@@ -46,9 +52,12 @@ void Crab::Load(){
 
     rendercomponent->Init();
     armaturecomponent->Init();
+    triggercomponent->Init();
+    physicscomponent->Init();
     crabcomponent->Init();
     
     rendercomponent->SetPose(armaturecomponent->GetPosePtr());
+    physicscomponent->SetActivation(true);
 
     isloaded = true;
 

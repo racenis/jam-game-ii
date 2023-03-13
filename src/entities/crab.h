@@ -70,7 +70,7 @@ public:
             }
             
             triggercomponent->SetLocation(parent->GetLocation() + vec3(0.0f, 2.0f, 0.0f));
-            auto ground = Physics::Raycast(parent->GetLocation() + vec3(0.0f, 1.0f, 0.0f), parent->GetLocation() - vec3(0.0f, 0.1f, 0.0f));
+            auto ground = Physics::Raycast(parent->GetLocation() + vec3(0.0f, 1.0f, 0.0f), parent->GetLocation() - vec3(0.0f, 0.1f, 0.0f), Physics::COLL_WORLDOBJ);
             
             if (!ground.collider && !hit_wall) { 
                 fall_velocity += 0.001f;
@@ -161,6 +161,7 @@ protected:
     Component<RenderComponent> rendercomponent;
     Component<ArmatureComponent> armaturecomponent;
     Component<TriggerComponent> triggercomponent;
+    Component<PhysicsComponent> physicscomponent;
     Component<CrabComponent> crabcomponent;
     SerializedData<Data> serializeddata;
 };
