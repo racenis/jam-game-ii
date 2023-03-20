@@ -1,4 +1,4 @@
-# cell 0 1
+CELLv1 majas 0 0
 staticwobj majas-zeme 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 none majas/ara fullbright
 trigger majas-durvis-ara-trigeris-atvert 1.000000 2.000000 0.000000 0.000000 0.000000 0.000000 none 1.000000 activate majas-durvis-ara
 door majas-durvis-ara -0.500000 1.000000 0.000000 0.000000 0.000000 0.000000 none majas/durvis

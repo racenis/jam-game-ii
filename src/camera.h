@@ -3,7 +3,7 @@
 
 #include <framework/math.h>
 
-using namespace Core;
+using namespace tram;
 
 void MongusCameraUpdate();
 

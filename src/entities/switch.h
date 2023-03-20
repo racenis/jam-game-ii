@@ -5,7 +5,7 @@
 #include <framework/serializeddata.h>
 #include <components/physicscomponent.h>
 
-using namespace Core;
+using namespace tram;
 
 class Switch : public Entity {
 public:

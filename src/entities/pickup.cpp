@@ -52,7 +52,8 @@ void Pickup::Load(){
     armature_component->Init();
     trigger_component->Init();
     
-    render_component->SetPose(armature_component->GetPosePtr());
+    //render_component->SetPose(armature_component->GetPosePtr());
+    render_component->SetArmature(armature_component.get());
 
     armature_component->PlayAnimation("pickup-spin", 1000.0f, 1.0f, 1.0f);
 

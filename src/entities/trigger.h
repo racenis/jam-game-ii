@@ -6,7 +6,7 @@
 #include <framework/serializeddata.h>
 #include <components/triggercomponent.h>
 
-using namespace Core;
+using namespace tram;
 
 extern name_t CURRENT_TRIGGER;
 

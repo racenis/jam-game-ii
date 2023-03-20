@@ -6,7 +6,7 @@
 #include <components/armaturecomponent.h>
 #include <framework/serializeddata.h>
 
-using namespace Core;
+using namespace tram;
 
 class Door : public Entity {
 public:

@@ -4,13 +4,14 @@
 #include <framework/entitycomponent.h>
 #include <framework/entity.h>
 #include <framework/event.h>
+#include <framework/message.h>
 #include <framework/ui.h>
 
 #include <components/rendercomponent.h>
 #include <components/triggercomponent.h>
 #include <components/armaturecomponent.h>
 
-using namespace Core;
+using namespace tram;
 
 class Mongus;
 extern Mongus* MAIN_MONGUS;
@@ -52,8 +53,8 @@ public:
         
         bool is_run = movdir_forward || movdir_side;
         
-        vec3 direction_forward = glm::normalize(Render::CAMERA_ROTATION * DIRECTION_FORWARD);
-        vec3 direction_side = glm::normalize(Render::CAMERA_ROTATION * DIRECTION_SIDE);
+        vec3 direction_forward = glm::normalize(Render::GetCameraRotation(0) * DIRECTION_FORWARD);
+        vec3 direction_side = glm::normalize(Render::GetCameraRotation(0) * DIRECTION_SIDE);
         
         direction_forward.y = 0.0f;
         direction_side.y = 0.0f;
@@ -88,7 +89,7 @@ public:
         vec3 in_pos = parent->GetLocation() + vec3(0.0f, 1.0f, 0.0f);
         vec3 ground_pos = parent->GetLocation() - vec3(0.0f, 0.02f, 0.0f);
         
-        auto collision = Physics::Raycast(in_pos, ground_pos);
+        auto collision = Physics::Raycast(in_pos, ground_pos, Physics::COLL_WORLDOBJ);
         
         if (collision.collider) {
             new_pos.y = collision.point.y;
@@ -168,7 +169,7 @@ public:
         }
         
         
-        auto shadow = Physics::Raycast(in_pos, in_pos - vec3(0.0f, 5.0f, 0.0f));
+        auto shadow = Physics::Raycast(in_pos, in_pos - vec3(0.0f, 5.0f, 0.0f), Physics::COLL_WORLDOBJ);
         
         if (shadow.collider) {
             Render::AddLineMarker(shadow.point, Render::COLOR_GREEN);
@@ -177,11 +178,19 @@ public:
         was_run = is_run;
         ticks_since_sway++;
         ticks_until_jump--;
+        ticks_since_yeet++;
     }
     
     static void Update() {
         for (auto& m : PoolProxy<MongusComponent>::GetPool()) {
             m.Move();
+        }
+    }
+    
+    void YeetIntoAir () {
+        if (ticks_since_yeet > 10) {
+            parent->SetLocation(parent->GetLocation() + vec3 (0.0f, 0.1f, 0.0f));
+            velocity += vec3 (0.1f, 0.3f, 0.1f);
         }
     }
     
@@ -200,6 +209,7 @@ public:
     
     int32_t ticks_since_sway = 0;
     int32_t ticks_until_jump = -1;
+    int32_t ticks_since_yeet = 0;
     
     bool was_run = false;
     
@@ -237,11 +247,12 @@ public:
         
         render_comp->SetParent(this);
         render_comp->SetModel("mongus");
-        render_comp->SetPose(armature_comp->GetPosePtr());
+        //render_comp->SetPose(armature_comp->GetPosePtr());
+        render_comp->SetArmature(armature_comp.get());
         render_comp->Init();
         
-        //physics_comp->SetParent(this);
-        physics_comp->SetKinematic();
+        physics_comp->SetParent(this);
+        physics_comp->SetKinematic(true);
         physics_comp->SetCollisionGroup(Physics::COLL_PLAYER);
         physics_comp->SetShape(Physics::CollisionShape::Cylinder(0.5, 0.5f));
         physics_comp->Init();
@@ -253,6 +264,8 @@ public:
         
         mongus_comp->SetArmatureComponent(armature_comp.get());
         mongus_comp->SetTriggerComponent(trigger_comp.get());
+        
+        physics_comp->SetActivation(true);
         
         this->isloaded = true;
     }
@@ -268,7 +281,7 @@ public:
     void UpdateParameters() {
         render_comp->UpdateLocation(location);
         render_comp->UpdateRotation(rotation);
-        physics_comp->SetLocation(location + vec3(0.0f, 1.6f, 0.0f));
+        //physics_comp->SetLocation(location + vec3(0.0f, 1.6f, 0.0f));
     }
     
     void SetParameters() {
@@ -277,7 +290,9 @@ public:
     }
 
     void MessageHandler(Message& msg) {
-        
+        if (isloaded && msg.type == 420) {
+            mongus_comp->YeetIntoAir();
+        }
     }
     
     void MongusPause() {

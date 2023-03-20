@@ -3,7 +3,7 @@
 
 #include <framework/worldcell.h>
 
-using namespace Core;
+using namespace tram;
 
 void InitLevelSwitch();
 

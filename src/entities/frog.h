@@ -8,7 +8,7 @@
 
 #include "../mongus.h"
 
-using namespace Core;
+using namespace tram;
 
 class Frog : public Entity {
 public:

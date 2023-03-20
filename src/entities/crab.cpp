@@ -36,13 +36,14 @@ void Crab::Load(){
     armaturecomponent->SetModel("krabis");
     
     triggercomponent->SetParent(this);
+    triggercomponent->SetCollisionMask(Physics::COLL_PLAYER | Physics::COLL_WORLDOBJ);
     triggercomponent->SetShape(Physics::CollisionShape::Sphere(0.4f));
     
     physicscomponent->SetParent(this);
-    physicscomponent->SetShape(Physics::CollisionShape::Sphere(0.6f));
-    physicscomponent->SetKinematic();
+    physicscomponent->SetShape(Physics::CollisionShape::Cylinder(1.0f, 0.5f));
+    physicscomponent->SetKinematic(true);
     physicscomponent->SetCollisionGroup(Physics::COLL_VEHICLE);
-    physicscomponent->SetCollisionMask(Physics::COLL_VEHICLE);
+    //physicscomponent->SetCollisionMask(Physics::COLL_VEHICLE);
     
     crabcomponent->SetParent(this);
     crabcomponent->SetTriggerComponent(triggercomponent.get());
@@ -56,7 +57,8 @@ void Crab::Load(){
     physicscomponent->Init();
     crabcomponent->Init();
     
-    rendercomponent->SetPose(armaturecomponent->GetPosePtr());
+    //rendercomponent->SetPose(armaturecomponent->GetPosePtr());
+    rendercomponent->SetArmature(armaturecomponent.get());
     physicscomponent->SetActivation(true);
 
     isloaded = true;
@@ -65,12 +67,17 @@ void Crab::Load(){
 }
 
 void Crab::Unload() {
+    std::cout << "crab is yeeted out of level" << std::endl;
+    
     isloaded = false;
 
     Serialize();
 
     rendercomponent.clear();
     armaturecomponent.clear();
+    triggercomponent.clear();
+    physicscomponent.clear();
+    crabcomponent.clear();
 }
 
 void Crab::Serialize() {
@@ -80,6 +87,12 @@ void Crab::Serialize() {
 }
 
 void Crab::MessageHandler(Message& msg){
-
+    std::cout << "CRAB MESSAGE" << std::endl;
+    if (isloaded) {
+        if (msg.type == 420) {
+            std::cout << "CRAB MESSAGE INSIDE" << std::endl;
+            crabcomponent->YeetIntoAir();
+        }
+    }
 }
 

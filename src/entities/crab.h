@@ -8,7 +8,7 @@
 
 #include "../mongus.h"
 
-using namespace Core;
+using namespace tram;
 
 enum CrabState {
     CRABSTATE_NONE,
@@ -33,11 +33,11 @@ public:
     void Move() {
         float mongus_distance = glm::distance(MAIN_MONGUS->GetLocation(), parent->GetLocation());
         
-        if (mongus_distance < 10.0f) {
+        if (mongus_distance < 10.0f && state == CRABSTATE_NONE) {
             state = CRABSTATE_SNIBETI_SNAB;
         }
         
-        if (mongus_distance > 15.0f) {
+        if (mongus_distance > 15.0f && state == CRABSTATE_SNIBETI_SNAB) {
             state = CRABSTATE_NONE;
         }
         
@@ -55,29 +55,48 @@ public:
             vec3 direction = glm::normalize(MAIN_MONGUS->GetLocation() - parent->GetLocation());
             quat rot_target = vec3(0.0f, 3.14f + (atan(direction.x/direction.z) - (direction.z < 0.0f ? 3.14f : 0.0f)), 0.0f);
             
-            quat new_rot = glm::mix(rot_target, parent->GetRotation(), 0.9f); 
+            quat new_rot = glm::mix(rot_target, parent->GetRotation(), 0.7f); 
             vec3 new_pos = parent->GetLocation() + new_rot * DIRECTION_FORWARD * 0.05f;
             
             bool hit_wall = false;
             vec3 wall_pos;
             
+            // check if the crab is inside a wall
+            triggercomponent->SetCollisionMask(Physics::COLL_WORLDOBJ);
             triggercomponent->SetLocation(parent->GetLocation() + vec3(0.0f, 0.5f, 0.0f));
             auto poll = triggercomponent->Poll();
             if (poll.size()) {
+                Render::AddLineMarker(poll[0].point, Render::COLOR_PINK);
                 new_pos = parent->GetLocation();
                 wall_pos = poll[0].point;
                 hit_wall = true;
             }
             
+            // check if the crab is inside the player
+            triggercomponent->SetCollisionMask(Physics::COLL_PLAYER);
+            for (auto& coll: triggercomponent->Poll()) {
+                if (!coll.collider) continue;
+                auto ent = coll.collider->GetParent();
+                if (!ent) continue;
+                Message::Send({
+                    .type = 420,
+                    .receiver = ent->GetID(),
+                    .sender = parent->GetID()
+                });
+            }
+            
+            // I don't remember why this is here, but I won't remove it, just in case
             triggercomponent->SetLocation(parent->GetLocation() + vec3(0.0f, 2.0f, 0.0f));
+            
+            // raycast to the ground
             auto ground = Physics::Raycast(parent->GetLocation() + vec3(0.0f, 1.0f, 0.0f), parent->GetLocation() - vec3(0.0f, 0.1f, 0.0f), Physics::COLL_WORLDOBJ);
             
+            // check if crab is in air, or standing on the ground
             if (!ground.collider && !hit_wall) { 
                 fall_velocity += 0.001f;
                 new_pos += vec3(0.0f,-1.0f,0.0f) * fall_velocity;
             } else {
                 fall_velocity = 0.0f;
-                
                 if (!hit_wall) {
                     new_pos.y = ground.point.y;
                 } else {
@@ -98,7 +117,23 @@ public:
             }
         }
         
+        if (state == CRABSTATE_OWEE) {
+            std::cout << "crab is yeeting!" << std::endl;
+            vec3 pos = parent->GetLocation();
+            quat rot = parent->GetRotation();
+            
+            parent->UpdateTransform(pos + owee_velocity, rot);
+            
+            owee_velocity.y -= 0.001f;
+            
+            if (Physics::Raycast(pos + vec3(0.0f, 1.0f, 0.0f), pos - vec3(0.0f, 0.1f, 0.0f), Physics::COLL_WORLDOBJ).collider) {
+                std::cout << "crab is finsih yeeting" << std::endl;
+                state = CRABSTATE_NONE;
+            }
+        }
+        
         if (parent->GetLocation().y < -10.0f) {
+            std::cout << "unloading the crab " << std::endl;
             parent->Unload();
         }
     }
@@ -117,8 +152,21 @@ public:
         this->armaturecomponent = armaturecomponent;
     }
     
+    void YeetIntoAir() {
+        state = CRABSTATE_OWEE;
+        
+        owee_velocity = {0.1f, 0.1f, 0.1f};
+        
+        vec3 pos = parent->GetLocation();
+        quat rot = parent->GetRotation();
+        
+        parent->UpdateTransform(pos + vec3(0.0f, 0.3f, 0.0f), rot);
+    }
+    
     CrabState state = CRABSTATE_NONE;
     float fall_velocity = 0.0f;
+    
+    vec3 owee_velocity = {0.0f, 0.0f, 0.0f};
     
     TriggerComponent* triggercomponent = nullptr;
     ArmatureComponent* armaturecomponent = nullptr;

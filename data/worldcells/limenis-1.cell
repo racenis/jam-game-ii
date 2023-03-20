@@ -1,4 +1,4 @@
-# cell 0 0
+CELLv1 limenis-1 0 0
 staticwobj limenis-1-zeme 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 none limeni/limenis1 fullbright
 marker limenis-1-ienacenis -23.000000 0.050000 16.000000 0.000000 0.000000 0.000000 none
 pickup limenis-1-pickup-1 -24.000000 1.000000 17.000000 0.000000 0.000000 0.000000 none pickup/kirsis

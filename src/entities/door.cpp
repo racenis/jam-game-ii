@@ -34,7 +34,8 @@ void Door::Load(){
     rendercomponent->Init();
     armaturecomponent->Init();
     
-    rendercomponent->SetPose(armaturecomponent->GetPosePtr());
+    //rendercomponent->SetPose(armaturecomponent->GetPosePtr());
+    rendercomponent->SetArmature(armaturecomponent.get());
 
     isloaded = true;
 

@@ -7,7 +7,7 @@
 #include <components/armaturecomponent.h>
 #include <components/triggercomponent.h>
 
-using namespace Core;
+using namespace tram;
 
 class Pickup : public Entity {
 public:
