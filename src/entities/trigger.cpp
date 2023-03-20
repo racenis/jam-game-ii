@@ -30,7 +30,7 @@ void Trigger::Load(){
         serializeddata->radius
     }));
     triggercomponent->SetCollisionMask(Physics::COLL_PLAYER);
-    triggercomponent->SetActivationCallback([](TriggerComponent* comp){
+    triggercomponent->SetActivationCallback([](TriggerComponent* comp, Physics::Collision){
         Message msg;
         
         msg.type = TRIGGER_ACTIVATE;
@@ -39,7 +39,7 @@ void Trigger::Load(){
         
         Message::Send(msg);
     });
-    triggercomponent->SetDectivationCallback([](TriggerComponent* comp){
+    triggercomponent->SetDectivationCallback([](TriggerComponent* comp, Physics::Collision){
         Message msg;
         
         msg.type = TRIGGER_DEACTIVATE;

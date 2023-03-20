@@ -45,14 +45,21 @@ void Frog::Load(){
     //rendercomponent->SetPose(armaturecomponent->GetPosePtr());
     rendercomponent->SetArmature(armaturecomponent.get());
     
-    triggercomponent->SetActivationCallback([](TriggerComponent* comp){
-        Message msg;
+    triggercomponent->SetActivationCallback([](TriggerComponent* comp, Physics::Collision coll) {
+        std::cout << "frog is activete!" << std::endl;
+        if (!coll.collider) return;
         
-        msg.type = Message::ACTIVATE;
-        msg.sender = comp->GetParent()->GetID();
-        msg.receiver = comp->GetParent()->GetID();
+        std::cout << "frog is collide!" << std::endl;
+        auto ent = coll.collider->GetParent();
         
-        Message::Send(msg);
+        if (!ent) return;
+
+        std::cout << "frog is sending!" << std::endl;
+        Message::Send({
+            .type = 420,
+            .receiver = ent->GetID(),
+            .sender = comp->GetParent()->GetID()
+        });
     });
 
     isloaded = true;
@@ -76,23 +83,6 @@ void Frog::Serialize() {
 }
 
 void Frog::MessageHandler(Message& msg){
-    if (msg.type == Message::ACTIVATE && isloaded) {
-        std::cout << "FROG ACK MESSAGE!" << std::endl;
-        for (auto& coll: this->triggercomponent->Poll()) {
-            std::cout << "frog is polling!" << std::endl;
-            if (!coll.collider) continue;
-            
-            auto ent = coll.collider->GetParent();
-            
-            if (!ent) continue;
 
-            Message::Send({
-                .type = 420,
-                .receiver = ent->GetID(),
-                .sender = GetID()
-            });
-        }
-        std::cout << "frog end messge!" << std::endl;
-    }
 }
 

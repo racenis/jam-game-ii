@@ -38,7 +38,7 @@ void Pickup::Load(){
     trigger_component->SetParent(this);
     trigger_component->SetShape(Physics::CollisionShape::Sphere(0.5f));
     trigger_component->SetCollisionMask(Physics::COLL_PLAYER);
-    trigger_component->SetActivationCallback([](TriggerComponent* component){
+    trigger_component->SetActivationCallback([](TriggerComponent* component, Physics::Collision){
         Message msg;
         
         msg.type = Message::ACTIVATE;

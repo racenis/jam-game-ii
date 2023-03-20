@@ -172,7 +172,7 @@ public:
         auto shadow = Physics::Raycast(in_pos, in_pos - vec3(0.0f, 5.0f, 0.0f), Physics::COLL_WORLDOBJ);
         
         if (shadow.collider) {
-            Render::AddLineMarker(shadow.point, Render::COLOR_GREEN);
+            //Render::AddLineMarker(shadow.point, Render::COLOR_GREEN);
         }
         
         was_run = is_run;
@@ -191,6 +191,7 @@ public:
         if (ticks_since_yeet > 10) {
             parent->SetLocation(parent->GetLocation() + vec3 (0.0f, 0.1f, 0.0f));
             velocity += vec3 (0.1f, 0.3f, 0.1f);
+            ticks_since_yeet = 0;
         }
     }
     
