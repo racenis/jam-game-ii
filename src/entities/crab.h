@@ -118,7 +118,6 @@ public:
         }
         
         if (state == CRABSTATE_OWEE) {
-            std::cout << "crab is yeeting!" << std::endl;
             vec3 pos = parent->GetLocation();
             quat rot = parent->GetRotation();
             
@@ -127,7 +126,6 @@ public:
             owee_velocity.y -= 0.001f;
             
             if (Physics::Raycast(pos + vec3(0.0f, 1.0f, 0.0f), pos - vec3(0.0f, 0.1f, 0.0f), Physics::COLL_WORLDOBJ).collider) {
-                std::cout << "crab is finsih yeeting" << std::endl;
                 state = CRABSTATE_NONE;
             }
         }
@@ -155,7 +153,7 @@ public:
     void YeetIntoAir() {
         state = CRABSTATE_OWEE;
         
-        owee_velocity = {0.1f, 0.1f, 0.1f};
+        owee_velocity = {0.15f, 0.2f, 0.15f};
         
         vec3 pos = parent->GetLocation();
         quat rot = parent->GetRotation();

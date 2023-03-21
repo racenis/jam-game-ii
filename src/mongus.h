@@ -11,6 +11,8 @@
 #include <components/triggercomponent.h>
 #include <components/armaturecomponent.h>
 
+#include "levelswitch.h"
+
 using namespace tram;
 
 class Mongus;
@@ -87,14 +89,13 @@ public:
         quat new_rot = vec3(0.0f, 3.14f + (atan(direction.x/direction.z) - (direction.z < 0.0f ? 3.14f : 0.0f)), 0.0f);
         
         vec3 in_pos = parent->GetLocation() + vec3(0.0f, 1.0f, 0.0f);
-        vec3 ground_pos = parent->GetLocation() - vec3(0.0f, 0.02f, 0.0f);
+        vec3 ground_pos = parent->GetLocation() - vec3(0.0f, velocity.y > 0.0f ? 0.01f : 0.1f, 0.0f);
         
         auto collision = Physics::Raycast(in_pos, ground_pos, Physics::COLL_WORLDOBJ);
         
         if (collision.collider) {
             new_pos.y = collision.point.y;
             velocity.y = 0.0f;
-            //velocity *= 0.89f;
             velocity *= 0.79f;
             
             is_in_air = false;
@@ -184,6 +185,13 @@ public:
     static void Update() {
         for (auto& m : PoolProxy<MongusComponent>::GetPool()) {
             m.Move();
+            m.CheckIfYeeted();
+        }
+    }
+    
+    void CheckIfYeeted() {
+        if (parent->GetLocation().y < -50.0f) {
+            SwitchLevel("majas-ara");
         }
     }
     
