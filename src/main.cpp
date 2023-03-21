@@ -18,6 +18,7 @@
 
 #include "mongus.h"
 #include "camera.h"
+#include "score.h"
 #include "levelswitch.h"
 #include "entities/trigger.h"
 #include "entities/door.h"
@@ -70,6 +71,8 @@ int main () {
     
     Render::Animation::Find("krabis-walk")->LoadFromDisk();
     Render::Animation::Find("krabis-snibetisnab")->LoadFromDisk();
+    
+    Render::Animation::Find("vardite-catapult")->LoadFromDisk();
 
     MAIN_MONGUS = new Mongus;
     MAIN_MONGUS->Load();
@@ -93,6 +96,11 @@ int main () {
             GUI::Text(Language::Get(CURRENT_TRIGGER), 1, GUI::TEXT_CENTER);
         }
         GUI::EndFrame();*/
+        
+        GUI::Frame(GUI::FRAME_TOP, 20.0f);
+            //GUI::Text(Language::Get("trigger-activate"), 1, GUI::TEXT_CENTER);
+            GUI::Text(std::to_string(GetScore()).c_str(), 2, GUI::TEXT_CENTER);
+        GUI::EndFrame();
         
         if (IsLoaderLoading()) {
             GUI::Frame(GUI::FRAME_BOTTOM, 100.0f);

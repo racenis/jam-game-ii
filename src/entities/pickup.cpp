@@ -1,7 +1,9 @@
 #include <framework/message.h>
+#include <framework/logging.h>
 #include <framework/worldcell.h>
 
 #include "pickup.h"
+#include "../score.h"
 
 
 
@@ -80,6 +82,26 @@ void Pickup::MessageHandler(Message& msg){
     if (!isloaded) return;
     
     if (msg.type == Message::ACTIVATE) {
+        auto model = render_component->GetModel();
+        
+        if (model == UID("pickup/kirsis")) {
+            AddScore(10);
+        } else if (model == UID("pickup/vinoga")) {
+            AddScore(20);
+        } else if (model == UID("pickup/pepelsins")) {
+            AddScore(50);
+        } else if (model == UID("pickup/kivi")) {
+            AddScore(100);
+        } else if (model == UID("pickup/banans")) {
+            AddScore(250);
+        } else if (model == UID("pickup/puke")) {
+            AddScore(1000);
+        } else {
+            AddScore(10);
+            Log ("Unrecognized pickup type {}!", model);
+        }
+        
+        
         Unload();
     }
 }

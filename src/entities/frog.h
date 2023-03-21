@@ -20,6 +20,8 @@ public:
     void Unload();
     void Serialize();
     void MessageHandler(Message& msg);
+    
+    void YeetIntoAir(Entity* yeetable);
 
     class Data: public SerializedEntityData {
     public:

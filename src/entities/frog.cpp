@@ -46,20 +46,9 @@ void Frog::Load(){
     rendercomponent->SetArmature(armaturecomponent.get());
     
     triggercomponent->SetActivationCallback([](TriggerComponent* comp, Physics::Collision coll) {
-        std::cout << "frog is activete!" << std::endl;
         if (!coll.collider) return;
         
-        std::cout << "frog is collide!" << std::endl;
-        auto ent = coll.collider->GetParent();
-        
-        if (!ent) return;
-
-        std::cout << "frog is sending!" << std::endl;
-        Message::Send({
-            .type = 420,
-            .receiver = ent->GetID(),
-            .sender = comp->GetParent()->GetID()
-        });
+        dynamic_cast<Frog*>(comp->GetParent())->YeetIntoAir(coll.collider->GetParent());
     });
 
     isloaded = true;
@@ -84,5 +73,18 @@ void Frog::Serialize() {
 
 void Frog::MessageHandler(Message& msg){
 
+}
+
+
+void Frog::YeetIntoAir(Entity* yeetable) {
+    if (!yeetable) return;
+
+    armaturecomponent->PlayAnimation("vardite-catapult", 1, 1.0f, 1.0f);
+
+    Message::Send({
+        .type = 420,
+        .receiver = yeetable->GetID(),
+        .sender = this->id
+    });
 }
 

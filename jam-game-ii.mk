@@ -14,7 +14,7 @@ CurrentFileName        :=
 CurrentFilePath        :=
 CurrentFileFullPath    :=
 User                   :=Poga
-Date                   :=20/03/2023
+Date                   :=21/03/2023
 CodeLitePath           :="C:/Program Files/CodeLite"
 MakeDirCommand         :=mkdir
 LinkerName             :=C:/mingw64/bin/g++.exe
@@ -66,8 +66,8 @@ AS       := C:/mingw64/bin/as.exe
 CodeLiteDir:=C:\Program Files\CodeLite
 WXWIN:=C:\Users\Poga\Desktop\miskaste\wxwidgets
 WXCFG:=gcc_dll\mswu
-Objects0=$(IntermediateDirectory)/src_entities_trigger.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_entities_switch.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_entities_door.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_camera.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_entities_frog.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_mongus.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_main.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_entities_pickup.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_entities_crab.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_levelswitch.cpp$(ObjectSuffix) \
-	
+Objects0=$(IntermediateDirectory)/src_score.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_entities_trigger.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_entities_switch.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_entities_door.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_camera.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_entities_frog.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_mongus.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_main.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_entities_pickup.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_entities_crab.cpp$(ObjectSuffix) \
+	$(IntermediateDirectory)/src_levelswitch.cpp$(ObjectSuffix) 
 
 
 
@@ -98,6 +98,14 @@ PreBuild:
 ##
 ## Objects
 ##
+$(IntermediateDirectory)/src_score.cpp$(ObjectSuffix): src/score.cpp $(IntermediateDirectory)/src_score.cpp$(DependSuffix)
+	$(CXX) $(IncludePCH) $(SourceSwitch) "C:/Users/Poga/Desktop/painis/jam-game-ii/src/score.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_score.cpp$(ObjectSuffix) $(IncludePath)
+$(IntermediateDirectory)/src_score.cpp$(DependSuffix): src/score.cpp
+	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/src_score.cpp$(ObjectSuffix) -MF$(IntermediateDirectory)/src_score.cpp$(DependSuffix) -MM src/score.cpp
+
+$(IntermediateDirectory)/src_score.cpp$(PreprocessSuffix): src/score.cpp
+	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_score.cpp$(PreprocessSuffix) src/score.cpp
+
 $(IntermediateDirectory)/src_entities_trigger.cpp$(ObjectSuffix): src/entities/trigger.cpp $(IntermediateDirectory)/src_entities_trigger.cpp$(DependSuffix)
 	$(CXX) $(IncludePCH) $(SourceSwitch) "C:/Users/Poga/Desktop/painis/jam-game-ii/src/entities/trigger.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_entities_trigger.cpp$(ObjectSuffix) $(IncludePath)
 $(IntermediateDirectory)/src_entities_trigger.cpp$(DependSuffix): src/entities/trigger.cpp
