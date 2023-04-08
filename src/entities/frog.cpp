@@ -8,13 +8,13 @@ Frog::Frog(std::string_view& str) : Entity(str) {
 
 
 void Frog::UpdateParameters() {
-    if (!isloaded) return;
-    rendercomponent->UpdateLocation(location);
-    rendercomponent->UpdateRotation(rotation);
+    if (!is_loaded) return;
+    rendercomponent->SetLocation(location);
+    rendercomponent->SetRotation(rotation);
 }
 
 void Frog::SetParameters() {
-    if (!isloaded) return;
+    if (!is_loaded) return;
     UpdateParameters();
 }
 
@@ -51,13 +51,13 @@ void Frog::Load(){
         dynamic_cast<Frog*>(comp->GetParent())->YeetIntoAir(coll.collider->GetParent());
     });
 
-    isloaded = true;
+    is_loaded = true;
 
     UpdateParameters();
 }
 
 void Frog::Unload() {
-    isloaded = false;
+    is_loaded = false;
 
     Serialize();
 

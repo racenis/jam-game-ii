@@ -9,13 +9,13 @@ Door::Door(std::string_view& str) : Entity(str) {
 
 
 void Door::UpdateParameters() {
-    if (!isloaded) return;
-    rendercomponent->UpdateLocation(location);
-    rendercomponent->UpdateRotation(rotation);
+    if (!is_loaded) return;
+    rendercomponent->SetLocation(location);
+    rendercomponent->SetRotation(rotation);
 }
 
 void Door::SetParameters() {
-    if (!isloaded) return;
+    if (!is_loaded) return;
     UpdateParameters();
 }
 
@@ -37,13 +37,13 @@ void Door::Load(){
     //rendercomponent->SetPose(armaturecomponent->GetPosePtr());
     rendercomponent->SetArmature(armaturecomponent.get());
 
-    isloaded = true;
+    is_loaded = true;
 
     UpdateParameters();
 }
 
 void Door::Unload() {
-    isloaded = false;
+    is_loaded = false;
 
     Serialize();
 
@@ -58,7 +58,7 @@ void Door::Serialize() {
 }
 
 void Door::MessageHandler(Message& msg){
-    if (!isloaded) return;
+    if (!is_loaded) return;
     if (msg.type == TRIGGER_ACTIVATE) {
         if (armaturecomponent->IsPlayingAnimation("door-close-cw")) {
             armaturecomponent->StopAnimation("door-close-cw");

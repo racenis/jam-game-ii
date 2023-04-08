@@ -13,16 +13,16 @@ Pickup::Pickup(std::string_view& str) : Entity(str) {
 }
 
 void Pickup::UpdateParameters() {
-    if (!isloaded) return;
-    render_component->UpdateLocation(location);
-    render_component->UpdateRotation(rotation);
+    if (!is_loaded) return;
+    render_component->SetLocation(location);
+    render_component->SetRotation(rotation);
     trigger_component->SetLocation(location);
     trigger_component->SetRotation(rotation);
     return;
 }
 
 void Pickup::SetParameters() {
-    if (!isloaded) return;
+    if (!is_loaded) return;
     UpdateParameters();
 }
 
@@ -59,13 +59,13 @@ void Pickup::Load(){
 
     armature_component->PlayAnimation("pickup-spin", 1000.0f, 1.0f, 1.0f);
 
-    isloaded = true;
+    is_loaded = true;
 
     UpdateParameters();
 }
 
 void Pickup::Unload() {
-    isloaded = false;
+    is_loaded = false;
 
     render_component.clear();
     armature_component.clear();
@@ -79,7 +79,7 @@ void Pickup::Serialize() {
 }
 
 void Pickup::MessageHandler(Message& msg){
-    if (!isloaded) return;
+    if (!is_loaded) return;
     
     if (msg.type == Message::ACTIVATE) {
         auto model = render_component->GetModel();

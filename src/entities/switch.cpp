@@ -15,7 +15,7 @@ void Switch::UpdateParameters() {
 }
 
 void Switch::SetParameters() {
-    if (!isloaded) return;
+    if (!is_loaded) return;
     physicscomponent->SetLocation(location);
     physicscomponent->SetRotation(rotation);
 }
@@ -33,13 +33,13 @@ void Switch::Load(){
     physicscomponent->SetMass(0.0f);
     
     physicscomponent->Init();
-    isloaded = true;
+    is_loaded = true;
 
     UpdateParameters();
 }
 
 void Switch::Unload() {
-    isloaded = false;
+    is_loaded = false;
 
     return;
 

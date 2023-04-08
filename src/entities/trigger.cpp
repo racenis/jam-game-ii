@@ -11,7 +11,7 @@ Trigger::Trigger(std::string_view& str) : Entity(str) {
 }
 
 void Trigger::UpdateParameters() {
-    if (!isloaded) return;
+    if (!is_loaded) return;
     triggercomponent->SetLocation(location);
     triggercomponent->SetRotation(rotation);
 }
@@ -50,13 +50,13 @@ void Trigger::Load(){
     });
     
     triggercomponent->Init();
-    isloaded = true;
+    is_loaded = true;
 
     UpdateParameters();
 }
 
 void Trigger::Unload() {
-    isloaded = false;
+    is_loaded = false;
     std::cout << "TRIGGER IS UNLOADED " << std::endl;
 
     triggercomponent.clear();
@@ -72,7 +72,7 @@ void Trigger::MessageHandler(Message& msg){
             serializeddata->trigger_action == UID("activate")) {
             Message::Send({
                 .type = TRIGGER_ACTIVATE,
-                .receiver = Entity::FindByName(serializeddata->trigger_target)->GetID()
+                .receiver = Entity::Find(serializeddata->trigger_target)->GetID()
             });
         }
         
@@ -89,7 +89,7 @@ void Trigger::MessageHandler(Message& msg){
             serializeddata->trigger_action == UID("activate")) {
             Message::Send({
                 .type = TRIGGER_DEACTIVATE,
-                .receiver = Entity::FindByName(serializeddata->trigger_target)->GetID()
+                .receiver = Entity::Find(serializeddata->trigger_target)->GetID()
             });
         }
         

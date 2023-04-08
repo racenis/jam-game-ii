@@ -12,13 +12,13 @@ Crab::Crab(std::string_view& str) : Entity(str) {
 
 
 void Crab::UpdateParameters() {
-    if (!isloaded) return;
-    rendercomponent->UpdateLocation(location);
-    rendercomponent->UpdateRotation(rotation);
+    if (!is_loaded) return;
+    rendercomponent->SetLocation(location);
+    rendercomponent->SetRotation(rotation);
 }
 
 void Crab::SetParameters() {
-    if (!isloaded) return;
+    if (!is_loaded) return;
     UpdateParameters();
 }
 
@@ -61,7 +61,7 @@ void Crab::Load(){
     rendercomponent->SetArmature(armaturecomponent.get());
     physicscomponent->SetActivation(true);
 
-    isloaded = true;
+    is_loaded = true;
 
     UpdateParameters();
 }
@@ -69,7 +69,7 @@ void Crab::Load(){
 void Crab::Unload() {
     std::cout << "crab is yeeted out of level" << std::endl;
     
-    isloaded = false;
+    is_loaded = false;
 
     Serialize();
 
@@ -87,10 +87,8 @@ void Crab::Serialize() {
 }
 
 void Crab::MessageHandler(Message& msg){
-    std::cout << "CRAB MESSAGE" << std::endl;
-    if (isloaded) {
+    if (is_loaded) {
         if (msg.type == 420) {
-            std::cout << "CRAB MESSAGE INSIDE" << std::endl;
             crabcomponent->YeetIntoAir();
         }
     }

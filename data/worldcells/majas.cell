@@ -1,10 +1,10 @@
-CELLv1 majas 0 0
-staticwobj majas-zeme 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 none majas/ara fullbright
-trigger majas-durvis-ara-trigeris-atvert 1.000000 2.000000 0.000000 0.000000 0.000000 0.000000 none 1.000000 activate majas-durvis-ara
-door majas-durvis-ara -0.500000 1.000000 0.000000 0.000000 0.000000 0.000000 none majas/durvis
-trigger majas-durvis-trigeris-ienakt -1.700000 2.000000 0.000000 0.000000 0.000000 0.000000 none 1.000000 enter majas-ieksa
-marker majas-ara-kamera 3.099999 3.699999 0.000000 0.000000 0.000000 0.000000 none
-marker majas-ara-ienacenis 0.500000 1.000000 0.000000 0.000000 0.000000 0.000000 none
-trigger limenis-1-durvis-trigeris-atvert 11.000000 1.000000 -34.000000 0.000000 0.000000 0.000000 none 1.000000 activate limenis-1-durvis
-door limenis-1-durvis 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 none majas/varti1
-trigger limenis-1-trigeris-ienakt 11.000000 1.000000 -36.000000 0.000000 0.000000 0.000000 none 1.000000 enter limenis-1
+CELLv2 majas 0 0 
+staticwobj 0 none 0 0 0 0 0 0 majas/ara fullbright 
+trigger 0 none 1 2 0 0 0 0 1 activate majas-durvis-ara 
+door 0 majas-durvis-ara -0.5 1 0 0 0 0 majas/durvis 
+trigger 0 majas-durvis-trigeris-ienakt -1.7 2 0 0 0 0 1 enter majas-ieksa 
+marker 0 majas-ara-kamera 3.099999 3.699999 0 0 0 0 IGNORE_THIS_TEXT 
+marker 0 majas-ara-ienacenis 0.5 1 0 0 0 0 IGNORE_THIS_TEXT 
+trigger 0 none 11 1 -34 0 0 0 1 activate limenis-1-durvis 
+door 0 limenis-1-durvis 0 0 0 0 0 0 majas/varti1 
+trigger 0 none 11 1 -36 0 0 0 1 enter limenis-1 

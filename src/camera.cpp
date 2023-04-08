@@ -1,5 +1,6 @@
 #include <framework/ui.h>
 #include <render/render.h>
+#include <render/api.h>
 #include "camera.h"
 #include "mongus.h"
 
@@ -32,7 +33,7 @@ vec3 CameraRotateAroundMongus(vec3 mongus_middle, vec3 camera_position, float ro
 }
 
 void MongusCameraUpdate() {
-    if (UI::INPUT_STATE == UI::STATE_DEFAULT) {
+    if (UI::GetInputState() == UI::STATE_DEFAULT) {
         vec3 mongus_middle = MAIN_MONGUS->GetLocation() + vec3(0.0f, 1.0f, 0.0f);
         vec3 look_dir = glm::normalize(camera_position - mongus_middle);
 
@@ -120,4 +121,6 @@ void MongusCameraDynamic(bool camera) {
         Render::SetSunColor({0.666f, 0.666f, 0.666f}, 0);
         Render::SetAmbientColor({0.444f, 0.444f, 0.444f}, 0);
     }
+    
+    Render::SetScreenClear({0.0f, 0.74f, 1.0f}, true);
 }

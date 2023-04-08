@@ -14,7 +14,7 @@ CurrentFileName        :=
 CurrentFilePath        :=
 CurrentFileFullPath    :=
 User                   :=Poga
-Date                   :=21/03/2023
+Date                   :=08/04/2023
 CodeLitePath           :="C:/Program Files/CodeLite"
 MakeDirCommand         :=mkdir
 LinkerName             :=C:/mingw64/bin/g++.exe
@@ -66,8 +66,8 @@ AS       := C:/mingw64/bin/as.exe
 CodeLiteDir:=C:\Program Files\CodeLite
 WXWIN:=C:\Users\Poga\Desktop\miskaste\wxwidgets
 WXCFG:=gcc_dll\mswu
-Objects0=$(IntermediateDirectory)/src_score.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_entities_trigger.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_entities_switch.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_entities_door.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_camera.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_entities_frog.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_mongus.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_main.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_entities_pickup.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_entities_crab.cpp$(ObjectSuffix) \
-	$(IntermediateDirectory)/src_levelswitch.cpp$(ObjectSuffix) 
+Objects0=$(IntermediateDirectory)/src_entities_trigger.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_entities_switch.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_entities_door.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_score.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_camera.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_entities_frog.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_levelswitch.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_mongus.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_main.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_entities_pickup.cpp$(ObjectSuffix) \
+	$(IntermediateDirectory)/src_entities_crab.cpp$(ObjectSuffix) 
 
 
 
@@ -98,14 +98,6 @@ PreBuild:
 ##
 ## Objects
 ##
-$(IntermediateDirectory)/src_score.cpp$(ObjectSuffix): src/score.cpp $(IntermediateDirectory)/src_score.cpp$(DependSuffix)
-	$(CXX) $(IncludePCH) $(SourceSwitch) "C:/Users/Poga/Desktop/painis/jam-game-ii/src/score.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_score.cpp$(ObjectSuffix) $(IncludePath)
-$(IntermediateDirectory)/src_score.cpp$(DependSuffix): src/score.cpp
-	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/src_score.cpp$(ObjectSuffix) -MF$(IntermediateDirectory)/src_score.cpp$(DependSuffix) -MM src/score.cpp
-
-$(IntermediateDirectory)/src_score.cpp$(PreprocessSuffix): src/score.cpp
-	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_score.cpp$(PreprocessSuffix) src/score.cpp
-
 $(IntermediateDirectory)/src_entities_trigger.cpp$(ObjectSuffix): src/entities/trigger.cpp $(IntermediateDirectory)/src_entities_trigger.cpp$(DependSuffix)
 	$(CXX) $(IncludePCH) $(SourceSwitch) "C:/Users/Poga/Desktop/painis/jam-game-ii/src/entities/trigger.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_entities_trigger.cpp$(ObjectSuffix) $(IncludePath)
 $(IntermediateDirectory)/src_entities_trigger.cpp$(DependSuffix): src/entities/trigger.cpp
@@ -130,6 +122,14 @@ $(IntermediateDirectory)/src_entities_door.cpp$(DependSuffix): src/entities/door
 $(IntermediateDirectory)/src_entities_door.cpp$(PreprocessSuffix): src/entities/door.cpp
 	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_entities_door.cpp$(PreprocessSuffix) src/entities/door.cpp
 
+$(IntermediateDirectory)/src_score.cpp$(ObjectSuffix): src/score.cpp $(IntermediateDirectory)/src_score.cpp$(DependSuffix)
+	$(CXX) $(IncludePCH) $(SourceSwitch) "C:/Users/Poga/Desktop/painis/jam-game-ii/src/score.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_score.cpp$(ObjectSuffix) $(IncludePath)
+$(IntermediateDirectory)/src_score.cpp$(DependSuffix): src/score.cpp
+	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/src_score.cpp$(ObjectSuffix) -MF$(IntermediateDirectory)/src_score.cpp$(DependSuffix) -MM src/score.cpp
+
+$(IntermediateDirectory)/src_score.cpp$(PreprocessSuffix): src/score.cpp
+	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_score.cpp$(PreprocessSuffix) src/score.cpp
+
 $(IntermediateDirectory)/src_camera.cpp$(ObjectSuffix): src/camera.cpp $(IntermediateDirectory)/src_camera.cpp$(DependSuffix)
 	$(CXX) $(IncludePCH) $(SourceSwitch) "C:/Users/Poga/Desktop/painis/jam-game-ii/src/camera.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_camera.cpp$(ObjectSuffix) $(IncludePath)
 $(IntermediateDirectory)/src_camera.cpp$(DependSuffix): src/camera.cpp
@@ -145,6 +145,14 @@ $(IntermediateDirectory)/src_entities_frog.cpp$(DependSuffix): src/entities/frog
 
 $(IntermediateDirectory)/src_entities_frog.cpp$(PreprocessSuffix): src/entities/frog.cpp
 	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_entities_frog.cpp$(PreprocessSuffix) src/entities/frog.cpp
+
+$(IntermediateDirectory)/src_levelswitch.cpp$(ObjectSuffix): src/levelswitch.cpp $(IntermediateDirectory)/src_levelswitch.cpp$(DependSuffix)
+	$(CXX) $(IncludePCH) $(SourceSwitch) "C:/Users/Poga/Desktop/painis/jam-game-ii/src/levelswitch.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_levelswitch.cpp$(ObjectSuffix) $(IncludePath)
+$(IntermediateDirectory)/src_levelswitch.cpp$(DependSuffix): src/levelswitch.cpp
+	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/src_levelswitch.cpp$(ObjectSuffix) -MF$(IntermediateDirectory)/src_levelswitch.cpp$(DependSuffix) -MM src/levelswitch.cpp
+
+$(IntermediateDirectory)/src_levelswitch.cpp$(PreprocessSuffix): src/levelswitch.cpp
+	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_levelswitch.cpp$(PreprocessSuffix) src/levelswitch.cpp
 
 $(IntermediateDirectory)/src_mongus.cpp$(ObjectSuffix): src/mongus.cpp $(IntermediateDirectory)/src_mongus.cpp$(DependSuffix)
 	$(CXX) $(IncludePCH) $(SourceSwitch) "C:/Users/Poga/Desktop/painis/jam-game-ii/src/mongus.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_mongus.cpp$(ObjectSuffix) $(IncludePath)
@@ -177,14 +185,6 @@ $(IntermediateDirectory)/src_entities_crab.cpp$(DependSuffix): src/entities/crab
 
 $(IntermediateDirectory)/src_entities_crab.cpp$(PreprocessSuffix): src/entities/crab.cpp
 	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_entities_crab.cpp$(PreprocessSuffix) src/entities/crab.cpp
-
-$(IntermediateDirectory)/src_levelswitch.cpp$(ObjectSuffix): src/levelswitch.cpp $(IntermediateDirectory)/src_levelswitch.cpp$(DependSuffix)
-	$(CXX) $(IncludePCH) $(SourceSwitch) "C:/Users/Poga/Desktop/painis/jam-game-ii/src/levelswitch.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_levelswitch.cpp$(ObjectSuffix) $(IncludePath)
-$(IntermediateDirectory)/src_levelswitch.cpp$(DependSuffix): src/levelswitch.cpp
-	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/src_levelswitch.cpp$(ObjectSuffix) -MF$(IntermediateDirectory)/src_levelswitch.cpp$(DependSuffix) -MM src/levelswitch.cpp
-
-$(IntermediateDirectory)/src_levelswitch.cpp$(PreprocessSuffix): src/levelswitch.cpp
-	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_levelswitch.cpp$(PreprocessSuffix) src/levelswitch.cpp
 
 
 -include $(IntermediateDirectory)/*$(DependSuffix)

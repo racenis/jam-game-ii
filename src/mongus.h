@@ -113,7 +113,7 @@ public:
             }
             
             is_in_air = true;
-            Render::AddLineMarker(parent->GetLocation() + vec3(0.0f, 1.0f, 0.0f), Render::COLOR_CYAN);
+            //Render::AddLineMarker(parent->GetLocation() + vec3(0.0f, 1.0f, 0.0f), Render::COLOR_CYAN);
         }
         
         /*Render::AddLineMarker(collision.point, Render::COLOR_RED);*/
@@ -240,6 +240,8 @@ public:
 
 class Mongus : public Entity {
 public:
+    Mongus() : Entity("player") {}
+    ~Mongus() = default;
     void Load() {
         mongus_comp.make();
         render_comp.make();
@@ -276,7 +278,7 @@ public:
         
         physics_comp->SetActivation(true);
         
-        this->isloaded = true;
+        this->is_loaded = true;
     }
 
     void Unload() {
@@ -288,18 +290,18 @@ public:
     }
 
     void UpdateParameters() {
-        render_comp->UpdateLocation(location);
-        render_comp->UpdateRotation(rotation);
+        render_comp->SetLocation(location);
+        render_comp->SetRotation(rotation);
         //physics_comp->SetLocation(location + vec3(0.0f, 1.6f, 0.0f));
     }
     
     void SetParameters() {
-        assert(isloaded);
+        assert(is_loaded);
         UpdateParameters();
     }
 
     void MessageHandler(Message& msg) {
-        if (isloaded && msg.type == 420) {
+        if (is_loaded && msg.type == 420) {
             mongus_comp->YeetIntoAir();
         }
     }

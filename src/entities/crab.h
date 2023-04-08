@@ -66,7 +66,7 @@ public:
             triggercomponent->SetLocation(parent->GetLocation() + vec3(0.0f, 0.5f, 0.0f));
             auto poll = triggercomponent->Poll();
             if (poll.size()) {
-                Render::AddLineMarker(poll[0].point, Render::COLOR_PINK);
+                //Render::AddLineMarker(poll[0].point, Render::COLOR_PINK);
                 new_pos = parent->GetLocation();
                 wall_pos = poll[0].point;
                 hit_wall = true;
@@ -106,7 +106,7 @@ public:
             
             parent->UpdateTransform(new_pos, new_rot);
             
-            Render::AddLine(parent->GetLocation(), parent->GetLocation() + direction, Render::COLOR_CYAN);
+            //Render::AddLine(parent->GetLocation(), parent->GetLocation() + direction, Render::COLOR_CYAN);
             
             if (!armaturecomponent->IsPlayingAnimation("krabis-walk")) {
                 armaturecomponent->PlayAnimation("krabis-walk", 1000.0f, 1.0f, 8.0f);

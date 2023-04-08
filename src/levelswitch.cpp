@@ -47,8 +47,8 @@ void InitLevelSwitch() {
 }
 
 void LoadHomeLevel() {
-    ///SwitchLevel(UID("majas-ara"));
-    SwitchLevel(UID("limenis-1"));
+    SwitchLevel(UID("majas-ara"));
+    //SwitchLevel(UID("limenis-1"));
 }
 
 void SwitchLevel(name_t level_name) {
@@ -58,23 +58,23 @@ void SwitchLevel(name_t level_name) {
     
     if (level_name == UID("majas-ieksa")) {
         SELECTED_LEVEL = HOME_INTERIOR_LEVEL;
-        MAIN_MONGUS->SetLocation(Entity::FindByName("majas-ieksa-ienacenis")->GetLocation());
+        MAIN_MONGUS->SetLocation(Entity::Find("majas-ieksa-ienacenis")->GetLocation());
         MongusCameraLock(true);
-        MongusCameraMove(Entity::FindByName("majas-ieksa-kamera")->GetLocation());
+        MongusCameraMove(Entity::Find("majas-ieksa-kamera")->GetLocation());
 
     }
     
     if (level_name == UID("majas-ara")) {
         SELECTED_LEVEL = HOME_LEVEL;
-        MAIN_MONGUS->SetLocation(Entity::FindByName("majas-ara-ienacenis")->GetLocation());
+        MAIN_MONGUS->SetLocation(Entity::Find("majas-ara-ienacenis")->GetLocation());
         MongusCameraLock(false);
-        MongusCameraMove(Entity::FindByName("majas-ara-kamera")->GetLocation());
+        MongusCameraMove(Entity::Find("majas-ara-kamera")->GetLocation());
         MongusCameraDynamic(true);
     }
     
-    if (level_name == UID("limenis-1")) {
+    if (level_name == UID("limenis-2")) {
         SELECTED_LEVEL = FIRST_LEVEL;
-        MAIN_MONGUS->SetLocation(Entity::FindByName("limenis-1-ienacenis")->GetLocation());
+        MAIN_MONGUS->SetLocation(Entity::Find("limenis-2-ienacenis")->GetLocation());
         MongusCameraLock(false);
         MongusCameraDynamic(true);
     }

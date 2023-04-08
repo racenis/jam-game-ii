@@ -9,7 +9,6 @@
 #include <physics/physics.h>
 
 #include <components/rendercomponent.h>
-//#include <framework/worldcell.h>
 
 #include <entities/staticworldobject.h>
 #include <entities/marker.h>
@@ -29,7 +28,6 @@
 using namespace tram;
 
 int main () {
-    
     Core::Init();
     UI::Init();
     Render::Init();
@@ -39,22 +37,17 @@ int main () {
 
     Ext::Menu::Init();
     
-    Entity::Register("staticwobj", [](std::string_view& params) -> Entity* {return new StaticWorldObject(params);});
-    Entity::Register("trigger", [](std::string_view& params) -> Entity* {return new Trigger(params);});
-    Entity::Register("marker", [](std::string_view& params) -> Entity* {return new Marker(params);});
-    Entity::Register("pickup", [](std::string_view& params) -> Entity* {return new Pickup(params);});
-    Entity::Register("door", [](std::string_view& params) -> Entity* {return new Door(params);});
-    Entity::Register("crab", [](std::string_view& params) -> Entity* {return new Crab(params);});
-    Entity::Register("frog", [](std::string_view& params) -> Entity* {return new Frog(params);});
+    Entity::RegisterType("staticwobj", [](std::string_view& params) -> Entity* {return new StaticWorldObject(params);});
+    Entity::RegisterType("trigger", [](std::string_view& params) -> Entity* {return new Trigger(params);});
+    Entity::RegisterType("marker", [](std::string_view& params) -> Entity* {return new Marker(params);});
+    Entity::RegisterType("pickup", [](std::string_view& params) -> Entity* {return new Pickup(params);});
+    Entity::RegisterType("door", [](std::string_view& params) -> Entity* {return new Door(params);});
+    Entity::RegisterType("crab", [](std::string_view& params) -> Entity* {return new Crab(params);});
+    Entity::RegisterType("frog", [](std::string_view& params) -> Entity* {return new Frog(params);});
     
-    Language::Load("data/lv.lang");
+    Language::Load("lv");
     
-    Render::Material::LoadMaterialInfo("material");
-        
-    
-    //Render::CAMERA_POSITION = {0.0f, 10.0f, 0.0f};
-    //Render::CAMERA_ROTATION = vec3 (-3.14f*0.5f, 0.0f, 0.0f);
-    
+    Render::Material::LoadMaterialInfo("material");    
     
     Render::Animation::Find("mongus-run")->LoadFromDisk();
     Render::Animation::Find("mongus-sway")->LoadFromDisk();
@@ -79,7 +72,6 @@ int main () {
     MAIN_MONGUS->SetLocation(vec3 (5.0f, 0.0f, 0.0f));
     MAIN_MONGUS->SetRotation(vec3 (0.0f, 0.0f, 0.0f));
 
-
     InitLevelSwitch();
     LoadHomeLevel();
     
@@ -88,7 +80,7 @@ int main () {
         UI::Update();
         
         GUI::Begin();
-        GUI::Text("Sulas glaaze pre-alpha do not redistribute", 1, GUI::TEXT_LEFT);
+        GUI::Text("Sulas glaaze 0.1 (jam version, not finished yet)", 1, GUI::TEXT_LEFT);
         
         /*GUI::Frame(GUI::FRAME_BOTTOM, 100.0f);
         if (CURRENT_TRIGGER) {
