@@ -67,6 +67,7 @@ int main () {
     
     Render::Animation::Find("vardite-catapult")->LoadFromDisk();
 
+
     MAIN_MONGUS = new Mongus;
     MAIN_MONGUS->Load();
     MAIN_MONGUS->SetLocation(vec3 (5.0f, 0.0f, 0.0f));

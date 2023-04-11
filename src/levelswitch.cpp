@@ -11,6 +11,8 @@ WorldCell* HOME_LEVEL = nullptr;
 WorldCell* HOME_INTERIOR_LEVEL = nullptr;
 
 WorldCell* FIRST_LEVEL = nullptr;
+WorldCell* SECOND_LEVEL = nullptr;
+WorldCell* THIRD_LEVEL = nullptr;
 
 size_t loader_goal = 0;
 bool is_loader_loading = false;
@@ -44,6 +46,10 @@ void InitLevelSwitch() {
     HOME_INTERIOR_LEVEL->LoadFromDisk();
     FIRST_LEVEL = WorldCell::Make("limenis-1");
     FIRST_LEVEL->LoadFromDisk();
+    SECOND_LEVEL = WorldCell::Make("limenis-2");
+    SECOND_LEVEL->LoadFromDisk();
+    THIRD_LEVEL = WorldCell::Make("limenis-3");
+    THIRD_LEVEL->LoadFromDisk();
 }
 
 void LoadHomeLevel() {
@@ -61,7 +67,6 @@ void SwitchLevel(name_t level_name) {
         MAIN_MONGUS->SetLocation(Entity::Find("majas-ieksa-ienacenis")->GetLocation());
         MongusCameraLock(true);
         MongusCameraMove(Entity::Find("majas-ieksa-kamera")->GetLocation());
-
     }
     
     if (level_name == UID("majas-ara")) {
@@ -72,9 +77,23 @@ void SwitchLevel(name_t level_name) {
         MongusCameraDynamic(true);
     }
     
-    if (level_name == UID("limenis-2")) {
+    if (level_name == UID("limenis-1")) {
         SELECTED_LEVEL = FIRST_LEVEL;
+        MAIN_MONGUS->SetLocation(Entity::Find("limenis-1-ienacenis")->GetLocation());
+        MongusCameraLock(false);
+        MongusCameraDynamic(true);
+    }
+    
+    if (level_name == UID("limenis-2")) {
+        SELECTED_LEVEL = SECOND_LEVEL;
         MAIN_MONGUS->SetLocation(Entity::Find("limenis-2-ienacenis")->GetLocation());
+        MongusCameraLock(false);
+        MongusCameraDynamic(true);
+    }
+    
+    if (level_name == UID("limenis-3")) {
+        SELECTED_LEVEL = THIRD_LEVEL;
+        MAIN_MONGUS->SetLocation(Entity::Find("limenis-3-ienacenis")->GetLocation());
         MongusCameraLock(false);
         MongusCameraDynamic(true);
     }
