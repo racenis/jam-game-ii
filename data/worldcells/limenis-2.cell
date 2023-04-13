@@ -1,6 +1,6 @@
 CELLv2 limenis-2 0 0 
 staticwobj 0 none 0 0 0 0 0 0 limeni/limenis2 fullbright 
-marker 0 limenis-2-ienacenis -23 0.05 16 0 0 0 IGNORE_THIS_TEXT 
+marker 0 limenis-2-ienacenis 2 0 10 0 0 0 IGNORE_THIS_TEXT 
 pickup 0 none -24 1 17 0 0 0 pickup/kirsis 
 pickup 0 none -25 1 18.5 0 0 0 pickup/kirsis 
 pickup 0 none -24 1 20 0 0 0 pickup/kirsis 

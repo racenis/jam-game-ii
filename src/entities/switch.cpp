@@ -16,43 +16,74 @@ void Switch::UpdateParameters() {
 
 void Switch::SetParameters() {
     if (!is_loaded) return;
-    physicscomponent->SetLocation(location);
-    physicscomponent->SetRotation(rotation);
+    
+    triggercomponent->SetLocation(location);
+    triggercomponent->SetRotation(rotation);
+    
+    rendercomponent->SetLocation(location);
+    rendercomponent->SetRotation(rotation);
 }
 
 void Switch::Load(){
-    physicscomponent.make();
+    rendercomponent.make();
+    armaturecomponent.make();
+    triggercomponent.make();
     
-    physicscomponent->SetParent(this);
-    physicscomponent->SetShape(Physics::CollisionShape::Box({
-        serializeddata->radius, 
-        serializeddata->radius, 
-        serializeddata->radius
-    }));
-    physicscomponent->SetCollisionGroup(Physics::COLL_MONGUS);
-    physicscomponent->SetMass(0.0f);
+    rendercomponent->SetParent(this);
+    rendercomponent->SetModel("svira");
     
-    physicscomponent->Init();
+    armaturecomponent->SetParent(this);
+    armaturecomponent->SetModel("svira");
+    
+    triggercomponent->SetParent(this);
+    triggercomponent->SetShape(Physics::CollisionShape::Sphere(serializeddata->radius));
+    triggercomponent->SetCollisionMask(-1 ^ Physics::COLL_WORLDOBJ);
+    triggercomponent->SetCollisionGroup(-1 ^ Physics::COLL_WORLDOBJ);
+    triggercomponent->SetActivationCallback([](TriggerComponent* comp, Physics::Collision) {
+        std::cout << "FLIP IT" << std::endl;
+        dynamic_cast<Switch*>(comp->GetParent())->FlipIt();
+    });
+    
+    rendercomponent->Init();
+    armaturecomponent->Init();
+    triggercomponent->Init();
+    
+    rendercomponent->SetArmature(armaturecomponent.get());
+    
     is_loaded = true;
 
-    UpdateParameters();
+    SetParameters();
 }
 
 void Switch::Unload() {
     is_loaded = false;
 
-    return;
-
-    physicscomponent.clear();
+    rendercomponent.clear();
+    armaturecomponent.clear();
+    triggercomponent.clear();
 }
 
 void Switch::Serialize() {
     return;
 }
 
-void Switch::MessageHandler(Message& msg){
-    if (msg.type == Message::ACTIVATE) {
-        std::cout << "ACTIVATED!" << std::endl;
+void Switch::MessageHandler(Message& msg) {
+    
+}
+
+void Switch::FlipIt() {
+    if (flipped) return;
+
+    armaturecomponent->PlayAnimation("throw-switch", 1, 1.0f, 1.0f, true, true);
+
+    Entity* target = Entity::Find(serializeddata->yeet_target);
+    
+    if (!target) {
+        std::cout << "Can't find the target for " << name << std::endl;
+    } else {
+        delete target;
     }
+    
+    flipped = true;
 }
 

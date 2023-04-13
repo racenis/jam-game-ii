@@ -10,7 +10,9 @@ void MongusCameraUpdate();
 void MongusCameraMove(vec3);
 
 void MongusCameraLock(bool);
-
 void MongusCameraDynamic(bool);
+
+void MongusCameraNudgeLeft(bool);
+void MongusCameraNudgeRight(bool);
 
 #endif // JAM_GAME_II_CAMERA_H

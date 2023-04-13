@@ -36,8 +36,8 @@ public:
             switch (event.subtype) {
                 case UI::KEY_ACTION_FORWARD: movdir_forward += dir; break;
                 case UI::KEY_ACTION_BACKWARD: movdir_forward -= dir; break;
-                case UI::KEY_ACTION_LEFT: movdir_side -= dir; break;
-                case UI::KEY_ACTION_RIGHT: movdir_side += dir; break;
+                case UI::KEY_ACTION_STRAFE_LEFT: movdir_side -= dir; break;
+                case UI::KEY_ACTION_STRAFE_RIGHT: movdir_side += dir; break;
             }
             
             fall = true;

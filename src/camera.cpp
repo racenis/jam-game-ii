@@ -14,6 +14,9 @@ static quat camera_rotation = {1.0f, 0.0f, 0.0f, 0.0f};
 
 static float camera_velocity = 0.0f;
 
+static bool nudge_left = false;
+static bool nudge_right = false;
+
 
 float MongusOcclusion(vec3 mongus_middle, vec3 camera_position) {
     auto camera_to_mongus = Physics::Raycast(camera_position, mongus_middle, Physics::COLL_WORLDOBJ);
@@ -74,8 +77,8 @@ void MongusCameraUpdate() {
             
             // if mongus is behind something
             if (MongusOcclusion(mongus_middle, camera_position) != 0.0f) {
-                vec3 pos_a = CameraRotateAroundMongus(mongus_middle, camera_position, 0.01f);
-                vec3 pos_b = CameraRotateAroundMongus(mongus_middle, camera_position, -0.01f);
+                vec3 pos_a = CameraRotateAroundMongus(mongus_middle, camera_position, 0.02f);
+                vec3 pos_b = CameraRotateAroundMongus(mongus_middle, camera_position, -0.02f);
                 
                 float pos_a_occlusion = MongusOcclusion(mongus_middle, pos_a);
                 float pos_b_occlusion = MongusOcclusion(mongus_middle, pos_b);
@@ -93,6 +96,14 @@ void MongusCameraUpdate() {
             
             if (camera_velocity != 0.0f) {
                 camera_position = CameraRotateAroundMongus(mongus_middle, camera_position, camera_velocity);
+            }
+            
+            if (nudge_left) {
+                camera_velocity -= 0.0025f;
+            }
+            
+            if (nudge_right) {
+                camera_velocity += 0.0025f;
             }
         }
         
@@ -123,4 +134,12 @@ void MongusCameraDynamic(bool camera) {
     }
     
     Render::SetScreenClear({0.0f, 0.74f, 1.0f}, true);
+}
+
+void MongusCameraNudgeLeft (bool nudge) {
+    nudge_left = nudge;
+}
+
+void MongusCameraNudgeRight (bool nudge) {
+    nudge_right = nudge;
 }

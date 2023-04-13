@@ -20,6 +20,7 @@
 #include "score.h"
 #include "levelswitch.h"
 #include "entities/trigger.h"
+#include "entities/switch.h"
 #include "entities/door.h"
 #include "entities/pickup.h"
 #include "entities/crab.h"
@@ -39,6 +40,7 @@ int main () {
     
     Entity::RegisterType("staticwobj", [](std::string_view& params) -> Entity* {return new StaticWorldObject(params);});
     Entity::RegisterType("trigger", [](std::string_view& params) -> Entity* {return new Trigger(params);});
+    Entity::RegisterType("switch", [](std::string_view& params) -> Entity* {return new Switch(params);});
     Entity::RegisterType("marker", [](std::string_view& params) -> Entity* {return new Marker(params);});
     Entity::RegisterType("pickup", [](std::string_view& params) -> Entity* {return new Pickup(params);});
     Entity::RegisterType("door", [](std::string_view& params) -> Entity* {return new Door(params);});
@@ -60,7 +62,10 @@ int main () {
     Render::Animation::Find("door-close-cw")->LoadFromDisk();
     Render::Animation::Find("door-close-ccw")->LoadFromDisk();
     
+    Render::Animation::Find("throw-switch")->LoadFromDisk();
+    
     Render::Animation::Find("pickup-spin")->LoadFromDisk();
+    Render::Animation::Find("pickup-pickup")->LoadFromDisk();
     
     Render::Animation::Find("krabis-walk")->LoadFromDisk();
     Render::Animation::Find("krabis-snibetisnab")->LoadFromDisk();
@@ -76,12 +81,22 @@ int main () {
     InitLevelSwitch();
     LoadHomeLevel();
     
+    Event::AddListener (Event::KEYDOWN, [](Event& event) {
+        if (event.subtype == UI::KEY_ACTION_LEFT) MongusCameraNudgeLeft(true);
+        if (event.subtype == UI::KEY_ACTION_RIGHT) MongusCameraNudgeRight(true);
+    });
+    
+    Event::AddListener (Event::KEYUP, [](Event& event) {
+        if (event.subtype == UI::KEY_ACTION_LEFT) MongusCameraNudgeLeft(false);
+        if (event.subtype == UI::KEY_ACTION_RIGHT) MongusCameraNudgeRight(false);
+    });
+    
     while (!EXIT) {
         Core::Update();
         UI::Update();
         
         GUI::Begin();
-        GUI::Text("Sulas glaaze 0.1 (jam version, not finished yet)", 1, GUI::TEXT_LEFT);
+        GUI::Text("Sulas glaaze 0.2 pre-alpha", 1, GUI::TEXT_LEFT);
         
         /*GUI::Frame(GUI::FRAME_BOTTOM, 100.0f);
         if (CURRENT_TRIGGER) {

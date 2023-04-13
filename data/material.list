@@ -4,6 +4,7 @@ detail/logs flat
 detail/delis flat
 detail/egle alpha
 detail/seta alpha
+detail/metalareste alpha
 detail/varti alpha
 floor/zale flat
 floor/zaletaka flat
@@ -11,6 +12,7 @@ floor/taka flat
 wall/akmens flat
 wall/kiegeli flat
 wall/kiegelilieli flat
+wall/flizesmazas flat
 wall/zeme flat
 floor/flizeslielas flat
 detail/caurulecaurums flat
@@ -29,3 +31,4 @@ black flat
 mongus flat
 krabis flat
 vardite flat
+svira flat

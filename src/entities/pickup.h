@@ -19,6 +19,8 @@ public:
     void Unload();
     void Serialize();
     void MessageHandler(Message& msg);
+    
+    void PickedUp();
 
     class Data: public SerializedEntityData {
     public:
@@ -47,6 +49,7 @@ protected:
     Component<ArmatureComponent> armature_component;
     Component<TriggerComponent> trigger_component;
     SerializedData<Data> serializeddata;
+    bool picked_up = false;
 };
 
 

@@ -40,14 +40,8 @@ void Pickup::Load(){
     trigger_component->SetParent(this);
     trigger_component->SetShape(Physics::CollisionShape::Sphere(0.5f));
     trigger_component->SetCollisionMask(Physics::COLL_PLAYER);
-    trigger_component->SetActivationCallback([](TriggerComponent* component, Physics::Collision){
-        Message msg;
-        
-        msg.type = Message::ACTIVATE;
-        msg.sender = component->GetParent()->GetID();
-        msg.receiver = component->GetParent()->GetID();
-        
-        Message::Send(msg);
+    trigger_component->SetActivationCallback([](TriggerComponent* component, Physics::Collision) {
+        dynamic_cast<Pickup*>(component->GetParent())->PickedUp();
     });
     
     render_component->Init();
@@ -78,31 +72,40 @@ void Pickup::Serialize() {
     return;
 }
 
-void Pickup::MessageHandler(Message& msg){
+void Pickup::PickedUp() {
+    if (picked_up) return;
+    
+    auto model = render_component->GetModel();
+    
+    if (model == "pickup/kirsis") {
+        AddScore(10);
+    } else if (model == "pickup/vinoga") {
+        AddScore(20);
+    } else if (model == "pickup/pepelsins") {
+        AddScore(50);
+    } else if (model == "pickup/kivi") {
+        AddScore(100);
+    } else if (model == "pickup/banans") {
+        AddScore(250);
+    } else if (model == "pickup/puke") {
+        AddScore(1000);
+    } else {
+        AddScore(10);
+        Log ("Unrecognized pickup type {}!", model);
+    }
+    
+    armature_component->PlayAnimation("pickup-pickup", 1, 1.0f, 1.0f, true, true);
+    
+    picked_up = true;
+    
+    Message::Send(Message {.type = Message::ACTIVATE, .receiver = id, .sender = id}, 60);
+}
+
+void Pickup::MessageHandler (Message& msg) {
     if (!is_loaded) return;
     
     if (msg.type == Message::ACTIVATE) {
-        auto model = render_component->GetModel();
-        
-        if (model == UID("pickup/kirsis")) {
-            AddScore(10);
-        } else if (model == UID("pickup/vinoga")) {
-            AddScore(20);
-        } else if (model == UID("pickup/pepelsins")) {
-            AddScore(50);
-        } else if (model == UID("pickup/kivi")) {
-            AddScore(100);
-        } else if (model == UID("pickup/banans")) {
-            AddScore(250);
-        } else if (model == UID("pickup/puke")) {
-            AddScore(1000);
-        } else {
-            AddScore(10);
-            Log ("Unrecognized pickup type {}!", model);
-        }
-        
-        
-        Unload();
+        delete this;
     }
 }
 
