@@ -17,4 +17,6 @@ float GetLoaderProgress();
 
 bool IsLoaderLoading();
 
+void MakeNextLoadHome();
+
 #endif // JAM_GAME_II_LEVELSWITCH_H

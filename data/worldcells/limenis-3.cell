@@ -1,37 +1,36 @@
 CELLv2 limenis-3 0 0 
 staticwobj 0 none 0 0 0 0 0 0 limeni/limenis3 fullbright 
+staticwobj 0 none 0 0 -21.000008 0 3.14 0 tolete fullbright 
+frog 0 none -1.4901161e-08 2.3999996 -21.000008 -3.1415925 1.0415941 -3.1415925 vardite 
 marker 0 limenis-3-ienacenis 0 0 3.5 0 0 0 IGNORE_THIS_TEXT 
-pickup 0 none -24 1 17 0 0 0 pickup/kirsis 
-pickup 0 none -25 1 18.5 0 0 0 pickup/kirsis 
-pickup 0 none -24 1 20 0 0 0 pickup/kirsis 
-pickup 0 none -22 1 21 0 0 0 pickup/kirsis 
-pickup 0 none -20 1 20.5 0 0 0 pickup/kirsis 
-pickup 0 none -18 1 19 0 0 0 pickup/kirsis 
-pickup 0 none -15 3 19 0 0 0 pickup/kirsis 
-pickup 0 none -12 5 19 0 0 0 pickup/kirsis 
-pickup 0 none -11 5 17 0 0 0 pickup/kirsis 
-pickup 0 none -11 5 15 0 0 0 pickup/kirsis 
-pickup 0 none -12 5 13 0 0 0 pickup/kirsis 
-pickup 0 none -14 5 11.5 0 0 0 pickup/kirsis 
-pickup 0 none -17 6 11 0 0 0 pickup/kirsis 
-pickup 0 none -19 7 11 0 0 0 pickup/kirsis 
-pickup 0 none -21 8 11 0 0 0 pickup/kirsis 
-pickup 0 none -9 11 2 0 0 0 pickup/pepelsins 
-pickup 0 none -5 11 2 0 0 0 pickup/pepelsins 
-pickup 0 none -13 11 2 0 0 0 pickup/pepelsins 
-pickup 0 none -20 11 2 0 0 0 pickup/pepelsins 
-pickup 0 none -9 10.5 -8 0 0 0 pickup/vinoga 
-pickup 0 none -5 10 -4.000001 0 0 0 pickup/vinoga 
-pickup 0 none -13 10 -4 0 0 0 pickup/vinoga 
-pickup 0 none -9 9.5 0 0 0 0 pickup/vinoga 
-pickup 0 none -23 8 11 0 0 0 pickup/banans 
-pickup 0 none -23 8 11 0 0 0 pickup/banans 
-pickup 0 none -23 8 11 0 0 0 pickup/banans 
-pickup 0 none -23 8 11 0 0 0 pickup/kivi 
-pickup 0 none -23 8 11 0 0 0 pickup/kivi 
-pickup 0 none -23 8 11 0 0 0 pickup/kivi 
-pickup 0 none -22 8 -20 0 0 0 pickup/sula 
+pickup 0 none -32.6 22.5 0 0 0 0 pickup/kirsis 
+pickup 0 none -18.299995 2.2 -6.799993 0 0 0 pickup/kirsis 
+pickup 0 none -19.999985 2.2 -8.500004 0 0 0 pickup/kirsis 
+pickup 0 none -21.799995 2.2 -10.199996 0 0 0 pickup/kirsis 
+pickup 0 none -25.800018 3.6 -9.700003 0 0 0 pickup/kirsis 
+pickup 0 none -27.400013 3.6000004 -9.999993 0 0 0 pickup/kirsis 
+pickup 0 none -29.3 4.799998 -7.2000003 0 0 0 pickup/kirsis 
+pickup 0 none -31.899996 4.8 -6.7000027 0 0 0 pickup/kirsis 
+pickup 0 none -32.599995 5.999999 -2.3999982 0 0 0 pickup/kirsis 
+pickup 0 none -32.7 7.4 2.6000032 0 0 0 pickup/kirsis 
+pickup 0 none -29.199982 8.799998 5.4000063 0 0 0 pickup/kirsis 
+pickup 0 none -25.600002 9.900002 7.3 0 0 0 pickup/kirsis 
+pickup 0 none -21.800003 11.300005 5.799999 0 0 0 pickup/kirsis 
+pickup 0 none -32.6 20 -5.8 0 0 0 pickup/kirsis 
+pickup 0 none -21.1 16.2 -5.8 0 0 0 pickup/kirsis 
+pickup 0 none 44.699997 11 26.800009 0 0 0 pickup/pepelsins 
+pickup 0 none 39.199993 11 17.200006 0 0 0 pickup/pepelsins 
+pickup 0 none 50.499996 11 21.30001 0 0 0 pickup/pepelsins 
+pickup 0 none 44.900005 11 12.099998 0 0 0 pickup/pepelsins 
+pickup 0 none 41.399994 5.9000006 5.1999974 0 0 0 pickup/vinoga 
+pickup 0 none 43.8 8.699998 -4.000001 0 0 0 pickup/vinoga 
+pickup 0 none 37.100014 3.4999998 2.8 0 0 0 pickup/vinoga 
+pickup 0 none 38.20001 3.3999999 -6.899998 0 0 0 pickup/vinoga 
+pickup 0 none 0 1 -15.5 0 0 0 pickup/puke 
+pickup 0 none 0 4.399999 -21 0 0 0 pickup/sula 
 staticwobj 0 limenis-3-varti-1 0 0 0 0 0 0 limeni/limenis3varti1 fullbright 
 staticwobj 0 limenis-3-varti-2 0 0 0 0 0 0 limeni/limenis3varti2 fullbright 
 switch 0 none -27.600025 23.04 0 0 -1.57 0 1 limenis-3-varti-1 svira 
 switch 0 none 44.8 10.239991 30.8 0 3.14 0 1 limenis-3-varti-2 svira 
+frog 0 none 24.500021 -0.59999996 2.1 -3.1415925 -0.55840504 -3.1415925 vardite 
+crab 0 none 19.10001 0 0 -3.141587 1.5584195 -3.141587 krabis 

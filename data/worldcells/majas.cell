@@ -5,6 +5,7 @@ door 0 majas-durvis-ara -0.5 1 0 0 0 0 majas/durvis
 trigger 0 majas-durvis-trigeris-ienakt -1.7 2 0 0 0 0 1 enter majas-ieksa 
 marker 0 majas-ara-kamera 3.099999 3.699999 0 0 0 0 IGNORE_THIS_TEXT 
 marker 0 majas-ara-ienacenis 0.5 1 0 0 0 0 IGNORE_THIS_TEXT 
+marker 0 majas-ara-atnacenis 11 0 0 0 0 0 IGNORE_THIS_TEXT 
 trigger 0 none 11 1 -34 0 0 0 1 activate limenis-1-durvis 
 trigger 0 none -9.5 1 -30.5 0 0 0 1 activate limenis-2-durvis 
 trigger 0 none -19 1 -19 0 0 0 1 activate limenis-3-durvis 

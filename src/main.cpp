@@ -81,6 +81,12 @@ int main () {
     InitLevelSwitch();
     LoadHomeLevel();
     
+    Entity::Find("majas-ieksa-sula-1")->SetAutoLoad(false);
+    Entity::Find("majas-ieksa-sula-2")->SetAutoLoad(false);
+    Entity::Find("majas-ieksa-sula-3")->SetAutoLoad(false);
+    
+    Entity::Find("majas-ieksa-kuka")->SetAutoLoad(false);
+    
     Event::AddListener (Event::KEYDOWN, [](Event& event) {
         if (event.subtype == UI::KEY_ACTION_LEFT) MongusCameraNudgeLeft(true);
         if (event.subtype == UI::KEY_ACTION_RIGHT) MongusCameraNudgeRight(true);
@@ -111,11 +117,21 @@ int main () {
         GUI::EndFrame();
         
         if (IsLoaderLoading()) {
-            GUI::Frame(GUI::FRAME_BOTTOM, 100.0f);
-                GUI::Text(Language::Get("loading"), 1, GUI::TEXT_CENTER);
-            GUI::EndFrame();
+            std::string loading_text = Language::Get("loading");
             
-            GetLoaderProgress();
+            loading_text += " ";
+            loading_text += std::to_string(GetLoaderProgress() * 100.0f);
+            loading_text += "%";
+            
+            GUI::Frame(GUI::FRAME_BOTTOM, 100.0f);
+                GUI::Text(loading_text.c_str(), 1, GUI::TEXT_CENTER);
+            GUI::EndFrame();
+        }
+        
+        if (IsWin()) {
+            GUI::Frame(GUI::FRAME_BOTTOM, 80.0f);
+                GUI::Text(Language::Get("winner"), 1, GUI::TEXT_CENTER);
+            GUI::EndFrame();
         }
         
         Ext::Menu::DebugMenu();

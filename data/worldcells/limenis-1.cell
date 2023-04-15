@@ -40,6 +40,6 @@ pickup 0 none 0.5 10 -20.5 0 0 0 pickup/pepelsins
 pickup 0 none -4.5 7 -21.5 0 0 0 pickup/pepelsins 
 pickup 0 none -8.5 8 -18.5 0 0 0 pickup/pepelsins 
 pickup 0 none -14.5 7 -19.5 0 0 0 pickup/pepelsins 
-pickup 0 none -22 8 -20 0 0 0 pickup/sula 
+pickup 0 none -22 7.5000005 -20 0 0 0 pickup/sula 
 crab 0 none 14.400002 8.099999 22.099998 -3.141593 -1.341591 -3.141593 krabis 
 frog 0 none -10.900002 7.599998 4.799999 -3.141592 -0.841595 3.141592 vardite 

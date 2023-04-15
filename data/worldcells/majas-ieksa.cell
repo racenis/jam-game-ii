@@ -8,3 +8,7 @@ trigger 0 none 0.5 2 0 0 0 0 1 activate majas-durvis-ieksa
 staticwobj 0 none -0.6 1 3.3 0 0.6 0 majas/ledusskapis fullbright 
 door 0 majas-ledusskapis-durvis -0.6 1 3.3 0 0.6 0 majas/ledusskapisdurvis 
 trigger 0 none -0.6 2 3.3 0 0 0 1 activate majas-ledusskapis-durvis 
+staticwobj 0 majas-ieksa-kuka -4.300001 1.5 -1.3000003 3.1415925 -0.8415971 -3.1415925 majas/cielavina fullbright 
+staticwobj 0 majas-ieksa-sula-3 -0.8999989 1.0999999 3.1999996 0 0 0 majas/sula fullbright 
+staticwobj 0 majas-ieksa-sula-2 -0.55 1.0999999 3.05 0 0 0 majas/sula fullbright 
+staticwobj 0 majas-ieksa-sula-1 -0.599999 2.2999997 3.0999994 0 0 0 majas/sula fullbright 

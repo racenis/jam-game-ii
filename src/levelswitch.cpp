@@ -17,6 +17,8 @@ WorldCell* THIRD_LEVEL = nullptr;
 size_t loader_goal = 0;
 bool is_loader_loading = false;
 
+bool next_load_home = false;
+
 void StartLoader() {
     loader_goal = Async::GetWaitingResources();
     is_loader_loading = true;
@@ -53,26 +55,36 @@ void InitLevelSwitch() {
 }
 
 void LoadHomeLevel() {
-    //SwitchLevel(UID("majas-ara"));
+    SwitchLevel(UID("majas-ara"));
     //SwitchLevel(UID("limenis-1"));
-    SwitchLevel(UID("limenis-3"));
+    //SwitchLevel(UID("limenis-3"));
+}
+
+void MakeNextLoadHome() {
+    std::cout << "yeetiteety" << std::endl;
+    next_load_home = true;
 }
 
 void SwitchLevel(name_t level_name) {
     std::cout << "SWITCH LEVEL! " << level_name << std::endl;
+    bool prev_level_home = SELECTED_LEVEL == HOME_INTERIOR_LEVEL;
+    
     if (SELECTED_LEVEL) SELECTED_LEVEL->Unload();
     SELECTED_LEVEL = nullptr;
     
-    if (level_name == UID("majas-ieksa")) {
+    if (level_name == UID("majas-ieksa") || next_load_home) {
         SELECTED_LEVEL = HOME_INTERIOR_LEVEL;
         MAIN_MONGUS->SetLocation(Entity::Find("majas-ieksa-ienacenis")->GetLocation());
         MongusCameraLock(true);
         MongusCameraMove(Entity::Find("majas-ieksa-kamera")->GetLocation());
+        
+        next_load_home = false;
+        goto finish;
     }
     
     if (level_name == UID("majas-ara")) {
         SELECTED_LEVEL = HOME_LEVEL;
-        MAIN_MONGUS->SetLocation(Entity::Find("majas-ara-ienacenis")->GetLocation());
+        MAIN_MONGUS->SetLocation(Entity::Find(prev_level_home ? "majas-ara-ienacenis" : "majas-ara-atnacenis")->GetLocation());
         MongusCameraLock(false);
         MongusCameraMove(Entity::Find("majas-ara-kamera")->GetLocation());
         MongusCameraDynamic(true);
@@ -98,6 +110,8 @@ void SwitchLevel(name_t level_name) {
         MongusCameraLock(false);
         MongusCameraDynamic(true);
     }
+    
+finish:
     
     MAIN_MONGUS->MongusPause();
     

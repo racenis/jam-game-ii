@@ -63,6 +63,7 @@ void Frog::Unload() {
 
     rendercomponent.clear();
     armaturecomponent.clear();
+    triggercomponent.clear();
 }
 
 void Frog::Serialize() {

@@ -38,7 +38,7 @@ void Pickup::Load(){
     armature_component->SetModel(serializeddata->pickup_model);
 
     trigger_component->SetParent(this);
-    trigger_component->SetShape(Physics::CollisionShape::Sphere(0.5f));
+    trigger_component->SetShape(Physics::CollisionShape::Sphere((name_t) serializeddata->pickup_model == "pickup/sula" ? 1.0f : 0.5f));
     trigger_component->SetCollisionMask(Physics::COLL_PLAYER);
     trigger_component->SetActivationCallback([](TriggerComponent* component, Physics::Collision) {
         dynamic_cast<Pickup*>(component->GetParent())->PickedUp();
@@ -89,6 +89,9 @@ void Pickup::PickedUp() {
         AddScore(250);
     } else if (model == "pickup/puke") {
         AddScore(1000);
+    } else if (model == "pickup/sula") {
+        AddScore(500);
+        JuiceCollect();
     } else {
         AddScore(10);
         Log ("Unrecognized pickup type {}!", model);
