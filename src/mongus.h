@@ -13,6 +13,8 @@
 
 #include "levelswitch.h"
 
+#include <cmath>
+
 using namespace tram;
 
 class Mongus;
@@ -53,6 +55,7 @@ public:
     void Move() {
         if (is_paused) return;
         
+        // calculate movement velocity based on inputs
         bool is_run = movdir_forward || movdir_side;
         
         vec3 direction_forward = glm::normalize(Render::GetCameraRotation(0) * DIRECTION_FORWARD);
@@ -81,51 +84,55 @@ public:
             velocity += direction * clip_speed;
         }
         
+        vec3 old_pos = parent->GetLocation();
         
-        
-        /*Render::AddLine(parent->GetLocation(), parent->GetLocation() + direction, Render::COLOR_BLUE);*/
-        
-        vec3 new_pos = parent->GetLocation() + velocity;
+        vec3 new_pos = old_pos + velocity;
         quat new_rot = vec3(0.0f, 3.14f + (atan(direction.x/direction.z) - (direction.z < 0.0f ? 3.14f : 0.0f)), 0.0f);
         
-        vec3 in_pos = parent->GetLocation() + vec3(0.0f, 1.0f, 0.0f);
-        vec3 ground_pos = parent->GetLocation() - vec3(0.0f, velocity.y > 0.0f ? 0.01f : 0.1f, 0.0f);
         
+        // calculate collision
+        vec3 in_pos = old_pos + vec3(0.0f, 1.0f, 0.0f);
+        vec3 ground_pos = old_pos - vec3(0.0f, velocity.y > 0.0f ? 0.01f : 0.1f, 0.0f);
+ 
         auto collision = Physics::Raycast(in_pos, ground_pos, Physics::COLL_WORLDOBJ);
         
-        if (collision.collider) {
-            new_pos.y = collision.point.y;
+        float ground_height = collision.point.y;
+        bool is_on_ground = collision.collider;
+        
+        if (is_on_ground && ticks_since_jump > 3) {
+            //new_pos.y = collision.point.y;
             velocity.y = 0.0f;
             velocity *= 0.79f;
             
             is_in_air = false;
-            
-            if (jump && ticks_until_jump < 0) {
-                jump = false;
-                
-                //armature_comp->PlayAnimation("mongus-jump", 1, 1.0f, 4.0f);
-                velocity.y = 0.15f;
-                new_pos.y += 0.05f;
-            }
+            ticks_since_left_ground = 0;
         } else {
             if (fall) {
                 velocity.y -= 0.005f;
             }
             
             is_in_air = true;
-            //Render::AddLineMarker(parent->GetLocation() + vec3(0.0f, 1.0f, 0.0f), Render::COLOR_CYAN);
         }
         
-        /*Render::AddLineMarker(collision.point, Render::COLOR_RED);*/
+        if (jump && ticks_since_left_ground < 30) {
+            ticks_since_left_ground = 100;
+            //armature_comp->PlayAnimation("mongus-jump", 1, 1.0f, 4.0f);
+            velocity.y = 0.15f;
+            ticks_since_jump = 0;
+            //new_pos.y += 0.05f;
+        }
         
-        trigger_comp->SetLocation(new_pos + vec3(0.0f, 1.2f, 0.0f));
-        if (trigger_comp->Poll().size()) {
-            vec3 average_normal = vec3(0.0f, 0.0f, 0.0f);
-            auto poll = trigger_comp->Poll();
-            for (auto& coll : poll) {
-                average_normal += coll.normal;
-            }
-            average_normal /= poll.size();
+        jump = false;
+        
+        vec3 trigger_pos = old_pos + vec3(0.0f, 1.0f, 0.0f);
+        
+        trigger_comp->SetLocation(trigger_pos + velocity);
+        auto wall_collisions = trigger_comp->Poll();
+        
+        for (size_t i = 0; i < 3 && wall_collisions.size(); i++) {            
+            Render::AddLineMarker(wall_collisions[0].point, Render::COLOR_WHITE);
+            
+            vec3 average_normal = wall_collisions[0].normal;
             
             auto v_dir = glm::normalize(velocity);
             auto s_dir = glm::normalize(average_normal);
@@ -138,7 +145,40 @@ public:
             
             velocity = n_vel;
             
-            new_pos = parent->GetLocation() + velocity;
+            trigger_comp->SetLocation(trigger_pos + velocity);
+            wall_collisions = trigger_comp->Poll();
+        }
+        
+        if (wall_collisions.size()) {
+            velocity = {0.0f, 0.0f, 0.0f};
+        }
+        
+        new_pos = old_pos + velocity;
+        
+        // if mongus is inside ground
+        if (is_on_ground && new_pos.y < ground_height) {
+            float push_ammount = ground_height - new_pos.y;
+            
+            if (push_ammount > 0.05f) {
+                push_ammount = 0.05f;
+            }
+            
+            // check if there is space for him to be pushed up
+            trigger_comp->SetLocation(trigger_pos + push_ammount);
+            if (trigger_comp->Poll().size() == 0) {
+                 new_pos.y += push_ammount;
+            }
+        }
+        
+        // if mongus is a little bit above the ground
+        if (is_on_ground && new_pos.y > ground_height && ticks_since_jump > 3) {
+            float push_ammount = new_pos.y - ground_height;
+            
+            // check if there is space for him to be pushed up
+            trigger_comp->SetLocation(trigger_pos - push_ammount);
+            if (trigger_comp->Poll().size() == 0) {
+                 new_pos.y -= push_ammount;
+            }
         }
         
         parent->UpdateTransform(new_pos, new_rot);
@@ -146,6 +186,8 @@ public:
         
         
         //std::cout << movdir_forward << " " << movdir_side << std::endl;
+        
+        // show animations
         
         if (!armature_comp->IsPlayingAnimation("mongus-wag-tail")) {
             armature_comp->PlayAnimation("mongus-wag-tail", 100, 1.0f, 1.0f);
@@ -180,6 +222,8 @@ public:
         ticks_since_sway++;
         ticks_until_jump--;
         ticks_since_yeet++;
+        ticks_since_jump++;
+        ticks_since_left_ground++;
     }
     
     static void Update() {
@@ -219,6 +263,8 @@ public:
     int32_t ticks_since_sway = 0;
     int32_t ticks_until_jump = -1;
     int32_t ticks_since_yeet = 0;
+    int32_t ticks_since_jump = 100;
+    int32_t ticks_since_left_ground = 0;
     
     bool was_run = false;
     
@@ -268,7 +314,7 @@ public:
         physics_comp->SetShape(Physics::CollisionShape::Cylinder(0.5, 0.5f));
         physics_comp->Init();
         
-        trigger_comp->SetShape(Physics::CollisionShape::Capsule(0.4, 0.2f));
+        trigger_comp->SetShape(Physics::CollisionShape::Capsule(0.4f, 0.2f));
         //rigger_comp->SetCollisionGroup(Physics::COLL_PLAYER);
         trigger_comp->SetCollisionMask(-1 ^ Physics::COLL_PLAYER);
         trigger_comp->Init();

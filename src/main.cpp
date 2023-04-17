@@ -97,6 +97,8 @@ int main () {
         if (event.subtype == UI::KEY_ACTION_RIGHT) MongusCameraNudgeRight(false);
     });
     
+    UI::BindKeyboardKey(UI::KEY_F9, UI::KeyBinding {});
+    
     while (!EXIT) {
         Core::Update();
         UI::Update();

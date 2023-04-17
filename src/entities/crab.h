@@ -55,21 +55,27 @@ public:
             vec3 direction = glm::normalize(MAIN_MONGUS->GetLocation() - parent->GetLocation());
             quat rot_target = vec3(0.0f, 3.14f + (atan(direction.x/direction.z) - (direction.z < 0.0f ? 3.14f : 0.0f)), 0.0f);
             
-            quat new_rot = glm::mix(rot_target, parent->GetRotation(), 0.7f); 
-            vec3 new_pos = parent->GetLocation() + new_rot * DIRECTION_FORWARD * 0.05f;
+            quat new_rot = glm::mix(rot_target, parent->GetRotation(), 0.7f);
+            vec3 new_pos = parent->GetLocation() + velocity;
+            
+            // make crab go in player direction
+            float speed = 0.05f - glm::length(velocity);
+            float clip_speed = speed < 0.0f ? 0.0f : speed;
+            
+            velocity += new_rot * DIRECTION_FORWARD * clip_speed;
+            
             
             bool hit_wall = false;
-            vec3 wall_pos;
             
             // check if the crab is inside a wall
             triggercomponent->SetCollisionMask(Physics::COLL_WORLDOBJ);
             triggercomponent->SetLocation(parent->GetLocation() + vec3(0.0f, 0.5f, 0.0f));
             auto poll = triggercomponent->Poll();
             if (poll.size()) {
-                //Render::AddLineMarker(poll[0].point, Render::COLOR_PINK);
-                new_pos = parent->GetLocation();
-                wall_pos = poll[0].point;
                 hit_wall = true;
+                ticks_since_in_wall++;
+            } else {
+                ticks_since_in_wall = 0;
             }
             
             // check if the crab is inside the player
@@ -91,20 +97,29 @@ public:
             // raycast to the ground
             auto ground = Physics::Raycast(parent->GetLocation() + vec3(0.0f, 1.0f, 0.0f), parent->GetLocation() - vec3(0.0f, 0.1f, 0.0f), Physics::COLL_WORLDOBJ);
             
+            bool on_ground = ground.collider;
+            
             // check if crab is in air, or standing on the ground
-            if (!ground.collider && !hit_wall) { 
-                fall_velocity += 0.001f;
-                new_pos += vec3(0.0f,-1.0f,0.0f) * fall_velocity;
+            if (!on_ground || velocity.y > 0.0f) { 
+                velocity.y -= 0.001f;
             } else {
-                fall_velocity = 0.0f;
+                velocity.y = 0.0f;
+                velocity *= 0.78f;
+                
                 if (!hit_wall) {
                     new_pos.y = ground.point.y;
-                } else {
-                    new_pos.y = wall_pos.y;
                 }
             }
             
-            parent->UpdateTransform(new_pos, new_rot);
+            // try to dislodge crab if stuck in wall
+            if (ticks_since_in_wall > 60) {
+                velocity = {0.15f, 0.2f, 0.15f};
+                ticks_since_in_wall = 0;
+            }
+            
+            if (!hit_wall) {
+                parent->UpdateTransform(new_pos, new_rot);
+            }
             
             //Render::AddLine(parent->GetLocation(), parent->GetLocation() + direction, Render::COLOR_CYAN);
             
@@ -121,11 +136,12 @@ public:
             vec3 pos = parent->GetLocation();
             quat rot = parent->GetRotation();
             
-            parent->UpdateTransform(pos + owee_velocity, rot);
+            parent->UpdateTransform(pos + velocity, rot);
             
-            owee_velocity.y -= 0.001f;
+            velocity.y -= 0.001f;
             
             if (Physics::Raycast(pos + vec3(0.0f, 1.0f, 0.0f), pos - vec3(0.0f, 0.1f, 0.0f), Physics::COLL_WORLDOBJ).collider) {
+                velocity = {0.0f, 0.0f, 0.0f};
                 state = CRABSTATE_NONE;
             }
         }
@@ -153,7 +169,7 @@ public:
     void YeetIntoAir() {
         state = CRABSTATE_OWEE;
         
-        owee_velocity = {0.15f, 0.2f, 0.15f};
+        velocity = {0.15f, 0.2f, 0.15f};
         
         vec3 pos = parent->GetLocation();
         quat rot = parent->GetRotation();
@@ -162,9 +178,10 @@ public:
     }
     
     CrabState state = CRABSTATE_NONE;
-    float fall_velocity = 0.0f;
     
-    vec3 owee_velocity = {0.0f, 0.0f, 0.0f};
+    uint32_t ticks_since_in_wall = 0;
+    
+    vec3 velocity = {0.0f, 0.0f, 0.0f};
     
     TriggerComponent* triggercomponent = nullptr;
     ArmatureComponent* armaturecomponent = nullptr;

@@ -57,6 +57,7 @@ void InitLevelSwitch() {
 void LoadHomeLevel() {
     SwitchLevel(UID("majas-ara"));
     //SwitchLevel(UID("limenis-1"));
+    //SwitchLevel(UID("limenis-2"));
     //SwitchLevel(UID("limenis-3"));
 }
 
