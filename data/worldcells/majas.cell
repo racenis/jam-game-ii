@@ -1,5 +1,6 @@
 CELLv2 majas 0 0 
 staticwobj 0 none 0 0 0 0 0 0 majas/ara fullbright 
+staticwobj 0 none 0 0 0 0 0 0 majas/udenis fullbright 
 trigger 0 none 1 2 0 0 0 0 1 activate majas-durvis-ara 
 door 0 majas-durvis-ara -0.5 1 0 0 0 0 majas/durvis 
 trigger 0 majas-durvis-trigeris-ienakt -1.7 2 0 0 0 0 1 enter majas-ieksa 
@@ -18,4 +19,4 @@ trigger 0 none -22 1 -19 0 0 0 1 enter limenis-3
 staticwobj 0 none 0 0 0 0 0 0 majas/laipa fullbright 
 staticwobj 0 none 0 0 0 0 0 0 majas/tolete fullbright 
 door 0 toletes-durvis 0 0 0 0 0 0 majas/toletedurvis 
-trigger 0 none 11 1 -34 0 0 0 1 activate toletes-durvis
+trigger 0 none -4.5 1 -17.899971 0 0 0 1 activate toletes-durvis 
