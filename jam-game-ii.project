@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CodeLite_Project Name="jam-game-ii" Version="11000" InternalType="Console">
   <VirtualDirectory Name="src">
+    <File Name="src/sounds.cpp"/>
+    <File Name="src/sounds.h"/>
     <File Name="src/score.h"/>
     <File Name="src/score.cpp"/>
     <File Name="src/camera.h"/>

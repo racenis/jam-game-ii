@@ -1,6 +1,7 @@
 #include <framework/ui.h>
 #include <render/render.h>
 #include <render/api.h>
+#include <audio/audio.h>
 #include "camera.h"
 #include "mongus.h"
 
@@ -17,6 +18,9 @@ static float camera_velocity = 0.0f;
 static bool nudge_left = false;
 static bool nudge_right = false;
 
+static bool over_sound = false;
+
+static bool lessbright = false;
 
 float MongusOcclusion(vec3 mongus_middle, vec3 camera_position) {
     auto camera_to_mongus = Physics::Raycast(camera_position, mongus_middle, Physics::COLL_WORLDOBJ);
@@ -53,7 +57,11 @@ void MongusCameraUpdate() {
         camera_rotation = camera_rot;
         
         if (is_camera_dynamic) {
-            Render::SetSunDirection(glm::normalize(glm::quat(vec3(0.0f, camera_y, 0.0f)) * vec3(-1.0f, 2.0f, 1.0f)), 0);
+            if (lessbright) {
+                Render::SetSunDirection(glm::normalize(glm::quat(vec3(0.0f, camera_y, 0.0f)) * vec3(-1.0f, 1.0f, 1.0f)), 0);
+            } else {
+                Render::SetSunDirection(glm::normalize(glm::quat(vec3(0.0f, camera_y, 0.0f)) * vec3(-1.0f, 2.0f, 1.0f)), 0);
+            }
         }
         
         if (!is_camera_locked) {
@@ -105,10 +113,24 @@ void MongusCameraUpdate() {
             if (nudge_right) {
                 camera_velocity += 0.0025f;
             }
+            
+            if (mongus_altitude < -5.0f && !over_sound) {
+                SetPosition (SOUND_RIPPERINO, camera_position);
+                PlayOnce (SOUND_RIPPERINO);
+                
+                over_sound = true;
+            }
+            
+            if (mongus_altitude > -1.0f) {
+                over_sound = false;
+            }
         }
         
         Render::SetCameraPosition(camera_position, 0);
         Render::SetCameraRotation(camera_rotation, 0);
+        
+        Audio::SetListenerOrientation(camera_rotation);
+        Audio::SetListenerPosition(camera_position);
     }
 }
 
@@ -134,6 +156,10 @@ void MongusCameraDynamic(bool camera) {
     }
     
     Render::SetScreenClear({0.0f, 0.74f, 1.0f}, true);
+}
+
+void MongusCameraLessbright(bool bright) {
+    lessbright = bright;
 }
 
 void MongusCameraNudgeLeft (bool nudge) {

@@ -12,6 +12,7 @@
 #include <components/armaturecomponent.h>
 
 #include "levelswitch.h"
+#include "sounds.h"
 
 #include <cmath>
 
@@ -46,7 +47,7 @@ public:
             //direction = glm::length(direction) > 0.0f ? glm::normalize(direction) : vec3(0.0f, 0.0f, 0.0f);
         }
         
-        if (event.type == Event::KEYDOWN && event.subtype == UI::KEY_ACTION_JUMP) {
+        if (event.type == Event::KEYDOWN && (event.subtype == UI::KEY_ACTION_JUMP || event.subtype == UI::KEY_ACTION_UP || event.subtype == UI::KEY_ACTION_CROUCH || event.subtype == UI::KEY_ACTION_ACTIVATE)) {
             jump = true;
         }
         
@@ -120,6 +121,9 @@ public:
             velocity.y = 0.15f;
             ticks_since_jump = 0;
             //new_pos.y += 0.05f;
+            
+            SetPosition (SOUND_YEET, new_pos);
+            PlayOnce (SOUND_YEET);
         }
         
         jump = false;
@@ -130,7 +134,7 @@ public:
         auto wall_collisions = trigger_comp->Poll();
         
         for (size_t i = 0; i < 3 && wall_collisions.size(); i++) {            
-            Render::AddLineMarker(wall_collisions[0].point, Render::COLOR_WHITE);
+            //Render::AddLineMarker(wall_collisions[0].point, Render::COLOR_WHITE);
             
             vec3 average_normal = wall_collisions[0].normal;
             
@@ -189,6 +193,10 @@ public:
         
         // show animations
         
+        if (is_run) {
+            SetPosition (SOUND_PLIKUPLEKU, new_pos);
+        }
+        
         if (!armature_comp->IsPlayingAnimation("mongus-wag-tail")) {
             armature_comp->PlayAnimation("mongus-wag-tail", 100, 1.0f, 1.0f);
         }
@@ -205,10 +213,14 @@ public:
             if (armature_comp->IsPlayingAnimation("mongus-sway")) {
                 armature_comp->FadeAnimation("mongus-sway", false, 0.1f);
             }
+            
+            SetPlaying (SOUND_PLIKUPLEKU, true);
         }
         
         if (!is_run && was_run) {
             armature_comp->FadeAnimation("mongus-run", false, 0.025f);
+            
+            SetPlaying (SOUND_PLIKUPLEKU, false);
         }
         
         

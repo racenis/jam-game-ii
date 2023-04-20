@@ -62,12 +62,10 @@ void LoadHomeLevel() {
 }
 
 void MakeNextLoadHome() {
-    std::cout << "yeetiteety" << std::endl;
     next_load_home = true;
 }
 
 void SwitchLevel(name_t level_name) {
-    std::cout << "SWITCH LEVEL! " << level_name << std::endl;
     bool prev_level_home = SELECTED_LEVEL == HOME_INTERIOR_LEVEL;
     
     if (SELECTED_LEVEL) SELECTED_LEVEL->Unload();
@@ -78,6 +76,7 @@ void SwitchLevel(name_t level_name) {
         MAIN_MONGUS->SetLocation(Entity::Find("majas-ieksa-ienacenis")->GetLocation());
         MongusCameraLock(true);
         MongusCameraMove(Entity::Find("majas-ieksa-kamera")->GetLocation());
+        MongusCameraLessbright(false);
         
         next_load_home = false;
         goto finish;
@@ -89,6 +88,7 @@ void SwitchLevel(name_t level_name) {
         MongusCameraLock(false);
         MongusCameraMove(Entity::Find("majas-ara-kamera")->GetLocation());
         MongusCameraDynamic(true);
+        MongusCameraLessbright(false);
     }
     
     if (level_name == UID("limenis-1")) {
@@ -103,6 +103,7 @@ void SwitchLevel(name_t level_name) {
         MAIN_MONGUS->SetLocation(Entity::Find("limenis-2-ienacenis")->GetLocation());
         MongusCameraLock(false);
         MongusCameraDynamic(true);
+        MongusCameraLessbright(true);
     }
     
     if (level_name == UID("limenis-3")) {

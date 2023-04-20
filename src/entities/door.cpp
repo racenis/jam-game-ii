@@ -66,16 +66,12 @@ void Door::MessageHandler(Message& msg){
         
         armaturecomponent->PlayAnimation("door-open-cw", 1.0f, 1.0f, 1.0f, true, true);
         
-        
-        std::cout << "DOOR OPEN" << std::endl;
     } else if (msg.type == TRIGGER_DEACTIVATE) {
         if (armaturecomponent->IsPlayingAnimation("door-open-cw")) {
             armaturecomponent->StopAnimation("door-open-cw");
         }
         
         armaturecomponent->PlayAnimation("door-close-cw", 1.0f, 1.0f, 1.0f);
-        
-        std::cout << "DOOR CLOSE" << std::endl;
     } else {
         std::cout << "DOOR WHAT?" << std::endl;
     }

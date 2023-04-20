@@ -70,11 +70,6 @@ void main()
 	lightColor += suncolor * max(dot(nPos, normalize(sundir)), 0.0);
 	lightColor *= sunweight;
 	
-	lightColor += vec3(scenelights[modellights.x].bb) * max(dot(nPos, normalize(vec3(scenelights[modellights.x].aa) - vPos)), 0.0) * (1.0 / (1.0 + 0.09 * distance1 + 0.032 * (distance1 * distance1)));
-	lightColor += vec3(scenelights[modellights.y].bb) * max(dot(nPos, normalize(vec3(scenelights[modellights.y].aa) - vPos)), 0.0)* (1.0 / (1.0 + 0.09 * distance2 + 0.032 * (distance2 * distance2)));
-	lightColor += vec3(scenelights[modellights.z].bb) * max(dot(nPos, normalize(vec3(scenelights[modellights.z].aa) - vPos)), 0.0)* (1.0 / (1.0 + 0.09 * distance3 + 0.032 * (distance3 * distance3)));
-	lightColor += vec3(scenelights[modellights.w].bb) * max(dot(nPos, normalize(vec3(scenelights[modellights.w].aa) - vPos)), 0.0)* (1.0 / (1.0 + 0.09 * distance4 + 0.032 * (distance4 * distance4)));
-	
 	vertColor = lightColor;
     vertUV = VertUV;
 	texIndex = TexIndex;

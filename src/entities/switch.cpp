@@ -40,7 +40,6 @@ void Switch::Load(){
     triggercomponent->SetCollisionMask(-1 ^ Physics::COLL_WORLDOBJ);
     triggercomponent->SetCollisionGroup(-1 ^ Physics::COLL_WORLDOBJ);
     triggercomponent->SetActivationCallback([](TriggerComponent* comp, Physics::Collision) {
-        std::cout << "FLIP IT" << std::endl;
         dynamic_cast<Switch*>(comp->GetParent())->FlipIt();
     });
     

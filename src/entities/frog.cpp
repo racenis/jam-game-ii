@@ -1,5 +1,6 @@
 #include "frog.h"
 #include "trigger.h"
+#include "../sounds.h"
 
 Frog::Frog(std::string_view& str) : Entity(str) {
     serializeddata.make();
@@ -87,5 +88,8 @@ void Frog::YeetIntoAir(Entity* yeetable) {
         .receiver = yeetable->GetID(),
         .sender = this->id
     });
+    
+    SetPosition (SOUND_BIGYEET, location);
+    PlayOnce (SOUND_BIGYEET);
 }
 

@@ -57,7 +57,6 @@ void Trigger::Load(){
 
 void Trigger::Unload() {
     is_loaded = false;
-    std::cout << "TRIGGER IS UNLOADED " << std::endl;
 
     triggercomponent.clear();
 }

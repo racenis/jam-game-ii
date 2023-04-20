@@ -35,10 +35,14 @@ public:
         
         if (mongus_distance < 10.0f && state == CRABSTATE_NONE) {
             state = CRABSTATE_SNIBETI_SNAB;
+            
+            SetPlaying (SOUND_SNIBETISNAB, true);
         }
         
         if (mongus_distance > 15.0f && state == CRABSTATE_SNIBETI_SNAB) {
             state = CRABSTATE_NONE;
+            
+            SetPlaying (SOUND_SNIBETISNAB, false);
         }
         
         if (state == CRABSTATE_NONE) {
@@ -130,6 +134,8 @@ public:
             if (!armaturecomponent->IsPlayingAnimation("krabis-snibetisnab")) {
                 armaturecomponent->PlayAnimation("krabis-snibetisnab", 1000.0f, 1.0f, 2.0f);
             }
+            
+            SetPosition (SOUND_SNIBETISNAB, new_pos);
         }
         
         if (state == CRABSTATE_OWEE) {
@@ -140,14 +146,19 @@ public:
             
             velocity.y -= 0.001f;
             
+            SetPosition (SOUND_SNIBETISNAB, pos);
+            
             if (Physics::Raycast(pos + vec3(0.0f, 1.0f, 0.0f), pos - vec3(0.0f, 0.1f, 0.0f), Physics::COLL_WORLDOBJ).collider) {
                 velocity = {0.0f, 0.0f, 0.0f};
                 state = CRABSTATE_NONE;
+                
+                SetPlaying (SOUND_SNIBETISNAB, false);
             }
         }
         
         if (parent->GetLocation().y < -10.0f) {
             std::cout << "unloading the crab " << std::endl;
+            SetPlaying (SOUND_SNIBETISNAB, false);
             parent->Unload();
         }
     }

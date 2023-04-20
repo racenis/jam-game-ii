@@ -11,6 +11,7 @@ void MongusCameraMove(vec3);
 
 void MongusCameraLock(bool);
 void MongusCameraDynamic(bool);
+void MongusCameraLessbright(bool);
 
 void MongusCameraNudgeLeft(bool);
 void MongusCameraNudgeRight(bool);

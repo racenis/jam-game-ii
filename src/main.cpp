@@ -6,6 +6,7 @@
 #include <framework/message.h>
 #include <framework/language.h>
 #include <framework/worldcell.h>
+#include <audio/audio.h>
 #include <physics/physics.h>
 
 #include <components/rendercomponent.h>
@@ -18,6 +19,7 @@
 #include "mongus.h"
 #include "camera.h"
 #include "score.h"
+#include "sounds.h"
 #include "levelswitch.h"
 #include "entities/trigger.h"
 #include "entities/switch.h"
@@ -28,13 +30,21 @@
 
 using namespace tram;
 
+static bool update_camera = true;
+
+void mainloop();
+
 int main () {
+    SetSystemLoggingSeverity(System::SYSTEM_PLATFORM, SEVERITY_WARNING);
+    SetSystemLoggingSeverity(System::SYSTEM_AUDIO, SEVERITY_WARNING);
+    
     Core::Init();
     UI::Init();
     Render::Init();
     Physics::Init();
+    Audio::Init();
     GUI::Init();
-    Async::Init();
+    Async::Init(0);
 
     Ext::Menu::Init();
     
@@ -72,6 +82,7 @@ int main () {
     
     Render::Animation::Find("vardite-catapult")->LoadFromDisk();
 
+    LoadAllSounds();
 
     MAIN_MONGUS = new Mongus;
     MAIN_MONGUS->Load();
@@ -97,77 +108,90 @@ int main () {
         if (event.subtype == UI::KEY_ACTION_RIGHT) MongusCameraNudgeRight(false);
     });
     
-    UI::BindKeyboardKey(UI::KEY_F9, UI::KeyBinding {});
+    //UI::BindKeyboardKey(UI::KEY_F9, UI::KeyBinding {});
     
+    
+    UI::BindKeyboardKey(UI::KEY_APOSTROPHE, UI::KeyBinding { .type = UI::KeyBinding::SPECIAL_OPTION, .special_option = [](){
+        LoadHomeLevel();
+    }});
+    
+    UI::BindKeyboardKey(UI::KEY_F10, UI::KeyBinding { .type = UI::KeyBinding::SPECIAL_OPTION, .special_option = [](){
+        update_camera = !update_camera;
+    }});
+    
+#ifdef __EMSCRIPTEN__
+    UI::SetWebMainLoop(mainloop);
+#else
     while (!EXIT) {
-        Core::Update();
-        UI::Update();
-        
-        GUI::Begin();
-        GUI::Text("Sulas glaaze 0.2 pre-alpha", 1, GUI::TEXT_LEFT);
-        
-        /*GUI::Frame(GUI::FRAME_BOTTOM, 100.0f);
-        if (CURRENT_TRIGGER) {
-            GUI::Text(Language::Get("trigger-activate"), 1, GUI::TEXT_CENTER); GUI::FrameBreakLine();
-            GUI::Text(Language::Get(CURRENT_TRIGGER), 1, GUI::TEXT_CENTER);
-        }
-        GUI::EndFrame();*/
-        
-        GUI::Frame(GUI::FRAME_TOP, 20.0f);
-            //GUI::Text(Language::Get("trigger-activate"), 1, GUI::TEXT_CENTER);
-            GUI::Text(std::to_string(GetScore()).c_str(), 2, GUI::TEXT_CENTER);
-        GUI::EndFrame();
-        
-        if (IsLoaderLoading()) {
-            std::string loading_text = Language::Get("loading");
-            
-            loading_text += " ";
-            loading_text += std::to_string(GetLoaderProgress() * 100.0f);
-            loading_text += "%";
-            
-            GUI::Frame(GUI::FRAME_BOTTOM, 100.0f);
-                GUI::Text(loading_text.c_str(), 1, GUI::TEXT_CENTER);
-            GUI::EndFrame();
-        }
-        
-        if (IsWin()) {
-            GUI::Frame(GUI::FRAME_BOTTOM, 80.0f);
-                GUI::Text(Language::Get("winner"), 1, GUI::TEXT_CENTER);
-            GUI::EndFrame();
-        }
-        
-        Ext::Menu::DebugMenu();
-        Ext::Menu::EscapeMenu();
-        GUI::End();
-        GUI::Update();
-        
-        //Render::CAMERA_POSITION = mongus->GetLocation() + vec3(0.0f, 30.0f, 0.0f);
-        //Render::CAMERA_ROTATION = LookAt (Render::CAMERA_POSITION, mongus->GetLocation());
+        mainloop();
+    }
+
+    Async::Yeet();
+    Audio::Uninit();
+    UI::Uninit();
     
-        MongusCameraUpdate();
+    return 0;    
+#endif
+}
 
-        if (UI::PollKeyboardKey(tram::UI::KEY_E)) MAIN_MONGUS->SetLocation(MAIN_MONGUS->GetLocation()+vec3(0.0f, 1.0f, 0.0f));
-
-        Event::Dispatch();
-        Message::Dispatch();
+void mainloop() {
+    Core::Update();
+    UI::Update();
+    
+    GUI::Begin();
+    GUI::Text("Sulas glaaze 0.2", 1, GUI::TEXT_LEFT);
+    
+    GUI::Frame(GUI::FRAME_TOP, 20.0f);
+        GUI::Text(std::to_string(GetScore()).c_str(), 2, GUI::TEXT_CENTER);
+    GUI::EndFrame();
+    
+    if (IsLoaderLoading()) {
+        std::string loading_text = Language::Get("loading");
         
-        MongusComponent::Update();
-        CrabComponent::Update();
+        loading_text += " ";
+        loading_text += std::to_string(GetLoaderProgress() * 100.0f);
+        loading_text += "%";
         
-        //UI::INPUT_STATE = UI::STATE_FLYING;
-        
-        Physics::Update();
-        
-        Async::ResourceLoader2ndStage();
-        Async::FinishResource();
-        
-        ArmatureComponent::Update();
-        
-        Render::Render();
-        UI::EndFrame();
+        GUI::Frame(GUI::FRAME_BOTTOM, 100.0f);
+            GUI::Text(loading_text.c_str(), 1, GUI::TEXT_CENTER);
+        GUI::EndFrame();
     }
     
-    Async::Yeet();
+    if (IsWin()) {
+        GUI::Frame(GUI::FRAME_BOTTOM, 80.0f);
+            GUI::Text(Language::Get("winner"), 1, GUI::TEXT_CENTER);
+        GUI::EndFrame();
+    }
     
-    return 0;
+    Ext::Menu::DebugMenu();
+    Ext::Menu::EscapeMenu();
+    GUI::End();
+    GUI::Update();
+
+    if (update_camera) MongusCameraUpdate();
+
+    //if (UI::PollKeyboardKey(tram::UI::KEY_E)) MAIN_MONGUS->SetLocation(MAIN_MONGUS->GetLocation()+vec3(0.0f, 1.0f, 0.0f));
+
+    Event::Dispatch();
+    Message::Dispatch();
+    
+    MongusComponent::Update();
+    CrabComponent::Update();
+    
+    //UI::INPUT_STATE = UI::STATE_FLYING;
+    
+    Physics::Update();
+    
+#ifdef __EMSCRIPTEN__
+    Async::ResourceLoader1stStage();
+#endif
+    
+    Async::ResourceLoader2ndStage();
+    Async::FinishResource();
+    
+    ArmatureComponent::Update();
+    
+    Render::Render();
+    UI::EndFrame();
+
 }

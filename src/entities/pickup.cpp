@@ -4,7 +4,7 @@
 
 #include "pickup.h"
 #include "../score.h"
-
+#include "../sounds.h"
 
 
 Pickup::Pickup(std::string_view& str) : Entity(str) {
@@ -96,6 +96,9 @@ void Pickup::PickedUp() {
         AddScore(10);
         Log ("Unrecognized pickup type {}!", model);
     }
+    
+    SetPosition (SOUND_PICKUP, location);
+    PlayOnce (SOUND_PICKUP);
     
     armature_component->PlayAnimation("pickup-pickup", 1, 1.0f, 1.0f, true, true);
     
